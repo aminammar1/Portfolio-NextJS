@@ -6,7 +6,6 @@
     import {
     SiNextdotjs,
     SiMongodb,
-    SiDocker,
     SiStripe,
     SiNestjs,
     SiTailwindcss,
@@ -21,6 +20,7 @@
         { name: 'React', icon: FaReact, color: '#61DAFB' },
         { name: 'Node.js', icon: FaNode, color: '#339933' },
         { name: 'Express', icon: SiNextdotjs, color: '#000000' },
+        { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
         ],
         image: '/projects/image4.png',
         link: 'https://mern-amine-estate.onrender.com',
@@ -32,7 +32,6 @@
         tech: [
         { name: 'Next.js', icon: SiNextdotjs, color: '#000000' },
         { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
-        { name: 'Docker', icon: SiDocker, color: '#2496ED' },
         { name: 'Stripe', icon: SiStripe, color: '#6772E5' },
         { name: 'Express', icon: SiNextdotjs, color: '#000000' },
         ],
