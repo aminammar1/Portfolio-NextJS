@@ -9,21 +9,26 @@
     SiStripe,
     SiNestjs,
     SiTailwindcss,
+    SiDocker,
+    SiClerk,
     } from 'react-icons/si'
+    import { BsDatabaseFill } from 'react-icons/bs'
     import { ArrowUpRightIcon } from '@heroicons/react/16/solid'
 
     const projects = [
     {
-        title: 'Amine-Real-Estate App',
-        description: 'Node.js, Express, React-based real estate platform',
+        title: 'CodeTrix',
+        description:
+        'IT Interview Platform with Convex, Next.js, Tailwind, Docker, and Clerk',
         tech: [
-        { name: 'React', icon: FaReact, color: '#61DAFB' },
-        { name: 'Node.js', icon: FaNode, color: '#339933' },
-        { name: 'Express', icon: SiNextdotjs, color: '#000000' },
-        { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
+        { name: 'Next.js', icon: SiNextdotjs, color: '#000000' },
+        { name: 'Convex', icon: BsDatabaseFill, color: '#FF6B6B' },
+        { name: 'Tailwind', icon: SiTailwindcss, color: '#38B2AC' },
+        { name: 'Docker', icon: SiDocker, color: '#2496ED' },
+        { name: 'Clerk', icon: SiClerk, color: '#6C47FF' },
         ],
-        image: '/projects/image4.png',
-        link: 'https://mern-amine-estate.onrender.com',
+        image: '/projects/image1.png',
+        link: 'https://it-interview-platform.vercel.app',
     },
     {
         title: 'Hanouti.Tn',
@@ -52,14 +57,16 @@
         link: 'https://elboutique-store.vercel.app',
     },
     {
-        title: 'Test Project 4',
-        description: 'This is a test project for demonstration purposes.',
+        title: 'Amine-Real-Estate App',
+        description: 'Node.js, Express, React-based real estate platform',
         tech: [
         { name: 'React', icon: FaReact, color: '#61DAFB' },
-        { name: 'TailwindCSS', icon: SiTailwindcss, color: '#06B6D4' },
+        { name: 'Node.js', icon: FaNode, color: '#339933' },
+        { name: 'Express', icon: SiNextdotjs, color: '#000000' },
+        { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
         ],
-        image: '/projects/website1.jpg',
-        link: 'https://example.com',
+        image: '/projects/image4.png',
+        link: 'https://mern-amine-estate.onrender.com',
     },
     ]
 
