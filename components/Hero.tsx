@@ -45,7 +45,7 @@
             <Image
             src={pfimage}
             alt='Profile Image'
-            width={290}
+            width={320}
             className='my-6 rounded-full border-4 border-gray-800 shadow-xl'
             priority
             />
