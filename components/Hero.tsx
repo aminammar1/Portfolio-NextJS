@@ -53,7 +53,7 @@
             Junior FullStack Developer based in Tunisia
             </p>
 
-            <a href = '/MedAmineAmmarResume.pdf'
+            <a href = '/mohamedaminammar_cv.pdf'
             download>
             <motion.button
             style={{ border, boxShadow }}

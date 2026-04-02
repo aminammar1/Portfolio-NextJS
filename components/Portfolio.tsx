@@ -12,7 +12,10 @@ import {
   SiDocker,
   SiClerk,
   SiFastapi,
+  SiFastify,
+  SiGo,
   SiHuggingface,
+  SiRedis,
   SiSocketdotio,
 } from 'react-icons/si'
 import { BsDatabaseFill } from 'react-icons/bs'
@@ -20,17 +23,18 @@ import { ArrowUpRightIcon } from '@heroicons/react/16/solid'
 
 const projects = [
   {
-    title: 'PetPulse',
+    title: 'Chess Puzzle Next',
     description:
-      'Full-stack pet care platform with Fastify, MongoDB, Socket.IO, and Next.js',
+      'Voice-first chess puzzle app built with Next.js, Go/Echo, FastAPI, Redis, and Docker',
     tech: [
       { name: 'Next.js', icon: SiNextdotjs, color: '#000000' },
-      { name: 'Fastify', icon: SiFastapi, color: '#000000' },
-      { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
-      { name: 'Socket.IO', icon: SiSocketdotio, color: '#010101' },
+      { name: 'Go', icon: SiGo, color: '#00ADD8' },
+      { name: 'FastAPI', icon: SiFastapi, color: '#009688' },
+      { name: 'Redis', icon: SiRedis, color: '#DC382D' },
+      { name: 'Docker', icon: SiDocker, color: '#2496ED' },
     ],
-    image: '/projects/image5.jpg',
-    link: 'https://petcare-platforme-petpulse.vercel.app',
+    image: '/projects/image1.png',
+    link: 'https://chess-puzzle-next.vercel.app/',
   },
   {
     title: 'ElBoutique',
@@ -69,7 +73,7 @@ const projects = [
       { name: 'Docker', icon: SiDocker, color: '#2496ED' },
       { name: 'Clerk', icon: SiClerk, color: '#6C47FF' },
     ],
-    image: '/projects/image1.png',
+    image: '/projects/image7.png',
     link: 'https://it-interview-platform.vercel.app',
   },
   {
@@ -96,6 +100,19 @@ const projects = [
     ],
     image: '/projects/image6.png',
     link: 'https://ai-powered-recruitment-app.vercel.app',
+  },
+  {
+    title: 'PetPulse',
+    description:
+      'Full-stack pet care platform with Fastify, MongoDB, Socket.IO, and Next.js',
+    tech: [
+      { name: 'Next.js', icon: SiNextdotjs, color: '#000000' },
+      { name: 'Fastify', icon: SiFastify, color: '#000000' },
+      { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
+      { name: 'Socket.IO', icon: SiSocketdotio, color: '#010101' },
+    ],
+    image: '/projects/image5.jpg',
+    link: 'https://petcare-platforme-petpulse.vercel.app',
   },
 ]
 
