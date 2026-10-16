@@ -1,63 +1,90 @@
 'use client'
 
-import React  , {useState} from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
-import { AiOutlineMenu , AiOutlineClose } from 'react-icons/ai'
+import ThemeToggle from './ThemeToggle'
+import { ArrowUpRight, Menu, X, FileText } from 'lucide-react'
 
 const navLinks = [
-    { title: 'About', path:'#about' },
-    { title: 'Portfolio', path:'#portfolio' },
-    { title: 'Stack', path: '#stack' },
-    { title: 'Contact', path:'#contact' },
+  { title: 'About', path: '#about' },
+  { title: 'Work', path: '#work' },
+  { title: 'Projects', path: '#projects' },
+  { title: 'Stack', path: '#stack' },
 ]
 
 export default function Navbar() {
-    const [nav , setNav] = useState(false)
+  const [open, setOpen] = useState(false)
 
-    const taggleNav = () => {
-        setNav(!nav)
-    }
-    const closeNav = () => {
-        setNav(false)
-    }
+  return (
+    <header className="sticky top-0 z-50 border-b border-line bg-background/80 backdrop-blur-md">
+      {/* Desktop */}
+      <div className="mx-auto flex h-12 max-w-4xl items-center justify-between px-4">
+        <Link href="#" className="font-mono text-[13px] font-semibold">
+          mohamedamine.dev
+        </Link>
 
+        <nav className="flex items-center gap-3">
+          <ul className="hidden items-center gap-4 sm:flex">
+            {navLinks.map((l) => (
+              <li key={l.title}>
+                <Link href={l.path} className="text-[13px] text-muted transition-colors hover:text-foreground">
+                  {l.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <span className="hidden h-4 w-px bg-line sm:block" />
+          <a
+            href="/mohamedaminammar_cv.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden items-center gap-1 text-[13px] text-muted transition-colors hover:text-foreground sm:inline-flex"
+          >
+            <FileText className="size-3.5" />
+            Résumé
+          </a>
+          <ThemeToggle />
+          <button
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+            className="inline-flex size-7 items-center justify-center rounded-md text-muted hover:text-foreground sm:hidden"
+          >
+            {open ? <X className="size-4" /> : <Menu className="size-4" />}
+          </button>
+        </nav>
+      </div>
 
-    return (
-    <div className='z-50 fixed flex justify-center w-full text-white font-bold'>
-        <div className='border border-white/20 mt-8 backdrop-blur-3xl rounded-3xl hidden md:flex items-center justify-between p-2 max-w-[400px] mx-auto'>
-            <ul className='flex flex-row p-2 space-x-8'>
-                {navLinks.map((link , index) => (
-                    <li key={index} >
-                        <Link href={link.path}  className='transform hover:text-white/50 transition-all duration-300 ease-in-out'>
-                            {link.title}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
-
-        <div onClick={taggleNav} className='md:hidden absolute top-5 right-14 border rounded z-50 text-white/70 border-white/70 p-2  '>
-                    
-                    {nav ? <AiOutlineClose size={30} /> : <AiOutlineMenu size={30} />}
-        </div>
-
-        <div 
-            className={`fixed left-0 top-0 w-full h-full bg-black/90 transform transition-transform duration-300 ${nav ? 'translate-x-0' : 'translate-x-full'} `}
-        >
-            <ul className='flex flex-col items-center justify-center space-y-8 h-full'>
-                {navLinks.map((link , index) => (
-                    <li key={index} >
-                        <Link href={link.path}
-                            onClick={closeNav}
-                            className='text-5xl'>
-                            {link.title}
-                        </Link>
-                    </li>
-                ))}
-                
-            </ul>
-
-            </div>
-    </div>
-    )
+      {/* Mobile */}
+      {open && (
+        <nav className="border-t border-line px-4 py-3 sm:hidden">
+          <ul className="flex flex-col gap-1">
+            {navLinks.map((l) => (
+              <li key={l.title}>
+                <Link
+                  href={l.path}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between rounded-md px-2 py-2 text-sm text-muted hover:bg-card hover:text-foreground"
+                >
+                  {l.title}
+                  <ArrowUpRight className="size-3.5" />
+                </Link>
+              </li>
+            ))}
+            <li>
+              <a
+                href="/mohamedaminammar_cv.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-between rounded-md px-2 py-2 text-sm text-muted hover:bg-card hover:text-foreground"
+              >
+                Résumé
+                <ArrowUpRight className="size-3.5" />
+              </a>
+            </li>
+          </ul>
+        </nav>
+      )}
+    </header>
+  )
 }

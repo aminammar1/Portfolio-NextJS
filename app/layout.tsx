@@ -1,13 +1,62 @@
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google"
+import type { Metadata, Viewport } from "next";
+import Script from "next/script";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const poppins = Poppins({subsets: ["latin"], weight: ["100", "200", "400", "700", "900"] });
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  weight: ["300", "400", "500", "600"],
+});
 
 export const metadata: Metadata = {
-  title: "Portfolio - Mohamed Amine Ammar",
-  description: "Mohamed Amine Ammar Portfolio",
+  title: "Mohamed Amine Ammar — Full Stack Software Developer",
+  description:
+    "Full Stack Software Developer in Monastir, Tunisia — building scalable web applications, microservices and AI-powered platforms, from design to cloud deployment.",
+  keywords: [
+    "Mohamed Amine Ammar",
+    "Full Stack Developer",
+    "Next.js",
+    "React",
+    "Node.js",
+    "Go",
+    "AWS",
+    "Tunisia",
+    "Portfolio",
+  ],
+  authors: [{ name: "Mohamed Amine Ammar" }],
+  openGraph: {
+    title: "Mohamed Amine Ammar — Full Stack Software Developer",
+    description:
+      "Scalable web applications, microservices and AI-powered platforms — from design to cloud deployment.",
+    type: "website",
+    locale: "en_US",
+  },
 };
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f6f3" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0c0e" },
+  ],
+};
+
+const themeInit = `
+(function(){
+  try {
+    var t = localStorage.getItem('theme');
+    if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  } catch (e) {}
+})();
+`;
 
 export default function RootLayout({
   children,
@@ -15,10 +64,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${poppins.className} antialiased`}
+        className={`${geist.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground`}
       >
+        <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeInit }} />
         {children}
       </body>
     </html>

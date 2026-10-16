@@ -1,39 +1,77 @@
 import React from 'react'
-import { FaReact } from 'react-icons/fa'
-import { IoLogoNodejs } from 'react-icons/io'
-import { SiGo, SiMongodb, SiTypescript } from 'react-icons/si'
-import { TbBrandNextjs } from 'react-icons/tb'
 
-const stackItems = [
-  { id: 1, name: 'React', icon: FaReact, color: '#61DBFB' },
-  { id: 2, name: 'Node.js', icon: IoLogoNodejs, color: '#8CC84B' },
-  { id: 3, name: 'Go', icon: SiGo, color: '#00ADD8' },
-  { id: 4, name: 'TypeScript', icon: SiTypescript, color: '#3178C6' },
-  { id: 5, name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
-  { id: 6, name: 'Next.js', icon: TbBrandNextjs, color: '#000000' },
+const categories: { title: string; items: string[] }[] = [
+  {
+    title: 'Programming Languages',
+    items: ['JavaScript', 'TypeScript', 'Python', 'Go', 'Java', 'C++', 'SQL'],
+  },
+  {
+    title: 'Frontend',
+    items: ['React', 'Next.js', 'React Native', 'Tailwind CSS', 'Electron', 'Framer Motion'],
+  },
+  {
+    title: 'Backend',
+    items: ['Node.js', 'Express', 'NestJS', 'Fastify', 'Go (Echo, Gin, Fiber)', 'FastAPI'],
+  },
+  {
+    title: 'Databases & Cloud',
+    items: [
+      'PostgreSQL',
+      'MongoDB',
+      'Redis',
+      'AWS (EC2, EKS)',
+      'Docker',
+      'Kubernetes',
+      'CI/CD',
+      'Nginx',
+      'GitHub Actions',
+    ],
+  },
+  {
+    title: 'AI & Practices',
+    items: [
+      'LLM Integration',
+      'RAG Pipelines',
+      'OpenAI API',
+      'Deepgram',
+      'MCP',
+      'Microservices',
+    ],
+  },
+  {
+    title: 'Architecture & Methodology',
+    items: ['Clean Architecture', 'Hexagonal Architecture', 'SOLID', 'Agile/Scrum'],
+  },
 ]
 
 export default function Stack() {
   return (
-    <section className="py-16 glass" id="stack">
-      <div className="max-w-[1200px] mx-auto px-4 text-center">
-        <h2 className="text-5xl font-bold text-gray-200 mb-4">My Stack</h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
-          {stackItems.map((item) => (
-            <div
-              key={item.id}
-              className="flex flex-col items-center justify-center p-4 rounded-xl"
-            >
-              <div className="mb-4 bg-white/10 p-6 rounded-xl">
-                {React.createElement(item.icon, {
-                  className: 'w-32 h-32',
-                  style: { color: item.color },
-                })}
-              </div>
-              <p className="font-semibold text-gray-400">{item.name}</p>
+    <section id="stack" className="mx-auto max-w-4xl px-4 pt-14">
+      <p className="section-label">Stack (38)</p>
+      <h2 className="mt-1 text-xl font-semibold tracking-tight">
+        Tools and technologies I use every day.
+      </h2>
+
+      <div className="mt-6 flex flex-col gap-4">
+        {categories.map((cat, i) => (
+          <div
+            key={cat.title}
+            className="flex flex-col gap-2 rounded-xl border border-line bg-card p-4 sm:flex-row sm:items-start sm:gap-4"
+          >
+            <span className="w-32 shrink-0 pt-1 font-mono text-[12px] text-muted">
+              {'0' + (i + 1)} · {cat.title.split(' &')[0].replace('Programming ', '')}
+            </span>
+            <div className="flex flex-wrap items-center justify-start gap-2">
+              {cat.items.map((item) => (
+                <span key={`${cat.title}-${item}`} className="pill !py-1">
+                  {item}
+                </span>
+              ))}
             </div>
-          ))}
-        </div>
+            {/* full title for screen readers */}
+            <span className="sr-only">{cat.title}</span>
+          </div>
+        ))}
       </div>
     </section>
   )

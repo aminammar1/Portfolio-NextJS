@@ -1,91 +1,62 @@
-# Portfolio – Next.js
+# Portfolio — Mohamed Amine Ammar
 
-A modern, visually engaging portfolio website built with Next.js and React. This project is designed to showcase your work, skills, and experience in a clean and interactive way.
+Personal portfolio of **Mohamed Amine Ammar** — Full Stack Software Developer (Monastir, Tunisia).
+Compact resume-dossier design (light + dark theme) built with Next.js 16, React 19 and Tailwind v4.
 
----
+**Live:** https://mohamedamineammar-portfolio.vercel.app/
 
-## Project Structure
+## Sections
 
-```
-portfolio
-├── app
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
-├── assets
-│   ├── docker.png
-│   ├── elementor.png
-│   ├── fastify.jpeg
-│   ├── fiverr.png
-│   ├── logitech.png
-│   ├── obj1.png
-│   ├── oracle.png
-│   └── pfimage.png
-├── components
-│   ├── Contact.tsx
-│   ├── Footer.tsx
-│   ├── Hero.tsx
-│   ├── LogoAnimation.tsx
-│   ├── Navbar.tsx
-│   ├── Portfolio.tsx
-│   └── Stack.tsx
-├── public
-│   ├── MedAmineAmmarResume.pdf
-│   └── projects
-│       └── website1.jpg
-├── package.json
-├── tsconfig.json
-├── next.config.ts
-├── postcss.config.mjs
-├── eslint.config.mjs
-├── next-env.d.ts
-└── README.md
+| Section        | Content                                                     |
+| -------------- | ----------------------------------------------------------- |
+| Intro          | Name, role, hello paragraph, contact column with avatar      |
+| About          | Narrative + milestone cards (CERT / OSS / CLOUD / SHIPPED)   |
+| Work (2)       | Pixelium internship + independent open-source builder        |
+| Technologies   | Marquee of the day-to-day stack                              |
+| Projects (12)  | Flagship shipped products (live + source links, NEW badges)  |
+| Open Source(8) | Repo list with language pills                                |
+| Education (4)  | Degree, certifications, languages                            |
+| Stack (38)     | Numbered categories of tools (per the current CV)            |
+| Footer         | Live GitHub contributions heatmap, socials, theme toggle     |
+
+## Stack
+
+- **Next.js 16** (App Router, Turbopack) · **React 19** · **TypeScript**
+- **Tailwind CSS v4** with CSS-variable theming (`:root` / `.dark`)
+- **framer-motion** for reveal animations (respects `prefers-reduced-motion`)
+- **Geist / Geist Mono** via `next/font`
+- Light/dark toggle persisted in `localStorage`, applied pre-hydration (no flash)
+
+## Getting started
+
+```bash
+npm install
+npm run dev      # http://localhost:3000
 ```
 
----
+## Scripts
 
-## About This Portfolio
+| Script              | What it does                                        |
+| ------------------- | --------------------------------------------------- |
+| `npm run dev`       | Dev server (Turbopack)                              |
+| `npm run build`     | Production build                                    |
+| `npm run start`     | Serve the production build                          |
+| `npm run lint`      | ESLint                                              |
+| `npm run typecheck` | `tsc --noEmit`                                      |
+| `npm run doctor`    | lint + typecheck + build (full pre-flight health)    |
 
-This portfolio is a single-page application featuring:
+## Adding a project
 
-- **Hero Section:** Eye-catching introduction with animation.
-- **Projects Showcase:** Interactive cards for selected works.
-- **Tech Stack:** Visual display of technologies used.
-- **Contact Form:** Easy way for visitors to reach out.
-- **Responsive Design:** Looks great on all devices.
+Projects are plain data — edit `components/Projects.tsx` (flagship grid) or
+`components/OpenSource.tsx` (repo list):
 
-Built with:
+```ts
+{ name, year, tags: ['E-Commerce'], desc, link, repo?, isNew? }
+```
 
-- **Next.js** for server-side rendering and routing
-- **React** for UI components
-- **Framer Motion** for smooth animations
-- **Tailwind CSS** for utility-first styling
-
----
-
-## Quick Start
-
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Run the development server:
-   ```bash
-   npm run dev
-   ```
-3. Open [http://localhost:3000](http://localhost:3000) to view your portfolio.
-
----
-
-## Customization
-
-- Add or edit your projects in `components/Portfolio.tsx`.
-- Update your skills and stack in `components/Stack.tsx`.
-- Change images in the `assets/` or `public/projects/` folders.
-- Edit global styles in `app/globals.css`.
-
----
+See `.opencode/skill/portfolio-ship/SKILL.md` for the full maintenance/ship flow
+(dep upgrades, doctor checks, design tokens, PR process).
 
 ## License
 
-This project is for personal use and inspiration. Feel free to modify and use it for your own portfolio.
+Personal project — all rights reserved.
