@@ -20,29 +20,31 @@ Workflow for safely releasing updates to the Mohamed Amine Ammar portfolio (Next
 
 ## 3. Design system
 
-- Sections are single-column, `max-w-4xl mx-auto px-4`, composed in `app/page.tsx`: Hero → About → Work → Marquee → Projects → Open Source → Education → Stack → Footer. Keep section order and the `aria`-friendly structure.
-- Theming: CSS variables in `app/globals.css` (`:root` light, `.dark` overrides) mapped through `@theme inline` — `background/card/card-2/foreground/muted/line/accent/accent-soft`. Dark mode is a `.dark` class on `<html>` toggled by `components/ThemeToggle.tsx`, initialized pre-hydration by the inline script in `app/layout.tsx` (keep `suppressHydrationWarning`). Accent: green `#16a34a` (light) / lime `#bef264` (dark).
-- Shared utility classes live in `globals.css`: `section-label`, `pill`, `row-hover`, `marquee-mask`, `animate-marquee(-reverse)`.
+- Sections are single-column, `max-w-4xl mx-auto px-4`, composed in `app/page.tsx`: Hero → Companies → Projects → Open Source → Music → Work → Education → Stack → Footer (+ floating AskMeAnything). Keep section order and the `aria`-friendly structure.
+- Theming: CSS variables in `app/globals.css` (`:root` light, `.dark` overrides) mapped through `@theme inline` — `background/card/card-2/foreground/muted/line/accent/accent-soft`. Dark mode is a `.dark` class on `<html>` toggled by `components/ThemeToggle.tsx`, initialized pre-hydration by the inline script in `app/layout.tsx` (keep `suppressHydrationWarning`). Accent: green `#16a34a` (light) / `#22c55e` (dark).
+- Shared utility classes live in `globals.css`: `section-label`, `pill`, `live-dot`, `row-hover`, `marquee-mask`, `animate-marquee`.
 - Fonts are Geist + Geist Mono via `next/font` in `app/layout.tsx`. Use `font-mono` for microcopy, years and labels.
-- Content data lives inline in each component (Experience, Projects, OpenSource, Education, Stack). Principles: honest data only — real dates, real links, real descriptions; new projects get `isNew` badges; everything links to the live site or the GitHub repo.
+- Content data lives inline in each component (Companies, Projects, OpenSource, Music, Work, Education, Stack). Principles: honest data only — real dates, real links; new projects get `isNew` badges and deployed ones get the `live` dot; never copy another person&apos;s projects/companies. Brand icons: use `react-icons/fa` (e.g. `FaGithub`) — lucide-react has no brand icons. Company/project logos: initials tiles by default; swap in a real file under `public/logos/` (see `TODO(logo)` in `Work.tsx`) or paste the owner-provided URL.
 
 ## 4. Adding a project
 
-Projects are data in `components/Projects.tsx` (flagship grid) or `components/OpenSource.tsx` (repo list). Each entry needs:
+Projects are data in `components/Projects.tsx` (compact rows) or `components/OpenSource.tsx` (repo rows). Each project entry needs:
 
 ```ts
 {
   name, year,               // display name + year label
-  tags: ['E-Commerce'],     // 1-2 short pills per project
-  desc,                     // 1-2 sentences, what it does + stack
+  tags: ['E-Commerce'],     // 2 short pills per project (desktop only)
   link,                     // live URL (or GitHub URL if not deployed)
   repo?,                    // GitHub source when it differs from link
-  isNew?,                   // sparkle "NEW" badge for the latest ones
+  isNew?,                   // "NEW" pill for the latest ones
+  live?,                    // green live dot for deployed products
 }
 ```
 
-- New flagship projects go at the top of the Projects array (they render first, 9 visible + "Show more").
-- The Projects count in the section label and the "Show more" button derive from the array — keep the label accurate.
+- New projects go at the top of the Projects array (6 visible + "Show more").
+- The section counts derive from the arrays — keep labels accurate.
+- Card links use the stretched-link pattern (outer `div` + absolute `a`) — never nest `<a>` inside `<a>` (hydration error).
+- New `react-hooks/set-state-in-effect` lint: never call setState synchronously in an effect body; use lazy `useState(() => ...)` initializers and setState only inside callbacks/intervals.
 
 ## 5. Release checklist
 

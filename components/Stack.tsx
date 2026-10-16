@@ -15,28 +15,11 @@ const categories: { title: string; items: string[] }[] = [
   },
   {
     title: 'Databases & Cloud',
-    items: [
-      'PostgreSQL',
-      'MongoDB',
-      'Redis',
-      'AWS (EC2, EKS)',
-      'Docker',
-      'Kubernetes',
-      'CI/CD',
-      'Nginx',
-      'GitHub Actions',
-    ],
+    items: ['PostgreSQL', 'MongoDB', 'Redis', 'AWS (EC2, EKS)', 'Docker', 'Kubernetes', 'CI/CD', 'Nginx', 'GitHub Actions'],
   },
   {
     title: 'AI & Practices',
-    items: [
-      'LLM Integration',
-      'RAG Pipelines',
-      'OpenAI API',
-      'Deepgram',
-      'MCP',
-      'Microservices',
-    ],
+    items: ['LLM Integration', 'RAG Pipelines', 'OpenAI API', 'Deepgram', 'MCP', 'Microservices'],
   },
   {
     title: 'Architecture & Methodology',
@@ -54,12 +37,9 @@ export default function Stack() {
 
       <div className="mt-6 flex flex-col gap-4">
         {categories.map((cat, i) => (
-          <div
-            key={cat.title}
-            className="flex flex-col gap-2 rounded-xl border border-line bg-card p-4 sm:flex-row sm:items-start sm:gap-4"
-          >
+          <div key={cat.title} className="flex flex-col gap-2 rounded-xl border border-line bg-card p-4 sm:flex-row sm:items-start sm:gap-4">
             <span className="w-32 shrink-0 pt-1 font-mono text-[12px] text-muted">
-              {'0' + (i + 1)} · {cat.title.split(' &')[0].replace('Programming ', '')}
+              {'0' + (i + 1)} · {cat.title}
             </span>
             <div className="flex flex-wrap items-center justify-start gap-2">
               {cat.items.map((item) => (
@@ -68,8 +48,6 @@ export default function Stack() {
                 </span>
               ))}
             </div>
-            {/* full title for screen readers */}
-            <span className="sr-only">{cat.title}</span>
           </div>
         ))}
       </div>

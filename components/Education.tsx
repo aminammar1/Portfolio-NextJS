@@ -1,10 +1,10 @@
 import React from 'react'
-import { GraduationCap, Award, Languages as LanguagesIcon } from 'lucide-react'
+import { Award, GraduationCap, Languages as LanguagesIcon } from 'lucide-react'
 
 const education = [
   {
     school: 'Faculty of Sciences of Monastir',
-    degree: "Bachelor's Degree in Software Engineering",
+    degree: 'Bachelor\u2019s Degree in Software Engineering',
     period: '2021 — 2024',
     place: 'Monastir, Tunisia',
   },
@@ -28,8 +28,7 @@ export default function Education() {
       <p className="section-label">Education &amp; Certifications (4)</p>
       <h2 className="mt-1 text-xl font-semibold tracking-tight">My academic background.</h2>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
-        {/* Education */}
+      <div className="mt-6 grid gap-3 lg:grid-cols-2">
         <div className="flex flex-col gap-3">
           {education.map((e) => (
             <div key={e.school} className="row-hover flex items-start gap-3 rounded-xl border border-line bg-card p-4">
@@ -46,7 +45,6 @@ export default function Education() {
               </div>
             </div>
           ))}
-          {/* Languages */}
           <div className="rounded-xl border border-line bg-card p-4">
             <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-muted">
               <LanguagesIcon className="size-3.5 text-accent" />
@@ -62,7 +60,6 @@ export default function Education() {
           </div>
         </div>
 
-        {/* Certifications */}
         <div className="flex flex-col gap-3">
           {certifications.map((c) => (
             <div key={c.name} className="row-hover flex items-start gap-3 rounded-xl border border-line bg-card p-4">

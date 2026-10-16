@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import ThemeToggle from './ThemeToggle'
-import { ArrowUpRight, Menu, X, FileText } from 'lucide-react'
+import ThemeToggle from '@/components/ThemeToggle'
+import { Menu, X } from 'lucide-react'
 
 const navLinks = [
   { title: 'About', path: '#about' },
@@ -16,45 +16,42 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-background/80 backdrop-blur-md">
-      {/* Desktop */}
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex h-12 max-w-4xl items-center justify-between px-4">
-        <Link href="#" className="font-mono text-[13px] font-semibold">
+        <Link href="#about" className="font-mono text-[13px] font-semibold tracking-tight">
           mohamedamine.dev
         </Link>
-
-        <nav className="flex items-center gap-3">
-          <ul className="hidden items-center gap-4 sm:flex">
-            {navLinks.map((l) => (
-              <li key={l.title}>
-                <Link href={l.path} className="text-[13px] text-muted transition-colors hover:text-foreground">
-                  {l.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <span className="hidden h-4 w-px bg-line sm:block" />
+        <nav className="hidden items-center gap-4 sm:flex">
+          {navLinks.map((l) => (
+            <Link
+              key={l.title}
+              href={l.path}
+              className="text-[13px] text-muted transition-colors hover:text-accent"
+            >
+              {l.title}
+            </Link>
+          ))}
           <a
             href="/mohamedaminammar_cv.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden items-center gap-1 text-[13px] text-muted transition-colors hover:text-foreground sm:inline-flex"
+            className="text-[13px] text-muted transition-colors hover:text-accent"
           >
-            <FileText className="size-3.5" />
-            Résumé
+            R&eacute;sum&eacute;
           </a>
+          <ThemeToggle />
+        </nav>
+        <div className="flex items-center gap-1 sm:hidden">
           <ThemeToggle />
           <button
             onClick={() => setOpen(!open)}
             aria-label="Toggle menu"
-            className="inline-flex size-7 items-center justify-center rounded-md text-muted hover:text-foreground sm:hidden"
+            className="inline-flex size-7 items-center justify-center rounded-md text-muted hover:text-foreground"
           >
             {open ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
-        </nav>
+        </div>
       </div>
-
-      {/* Mobile */}
       {open && (
         <nav className="border-t border-line px-4 py-3 sm:hidden">
           <ul className="flex flex-col gap-1">
@@ -63,10 +60,9 @@ export default function Navbar() {
                 <Link
                   href={l.path}
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between rounded-md px-2 py-2 text-sm text-muted hover:bg-card hover:text-foreground"
+                  className="block rounded-md px-2 py-2 text-sm text-muted hover:bg-card hover:text-foreground"
                 >
                   {l.title}
-                  <ArrowUpRight className="size-3.5" />
                 </Link>
               </li>
             ))}
@@ -75,11 +71,9 @@ export default function Navbar() {
                 href="/mohamedaminammar_cv.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between rounded-md px-2 py-2 text-sm text-muted hover:bg-card hover:text-foreground"
+                className="block rounded-md px-2 py-2 text-sm text-muted hover:bg-card hover:text-foreground"
               >
-                Résumé
-                <ArrowUpRight className="size-3.5" />
+                R&eacute;sum&eacute;
               </a>
             </li>
           </ul>

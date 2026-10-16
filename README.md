@@ -7,17 +7,18 @@ Compact resume-dossier design (light + dark theme) built with Next.js 16, React 
 
 ## Sections
 
-| Section        | Content                                                     |
-| -------------- | ----------------------------------------------------------- |
-| Intro          | Name, role, hello paragraph, contact column with avatar      |
-| About          | Narrative + milestone cards (CERT / OSS / CLOUD / SHIPPED)   |
-| Work (2)       | Pixelium internship + independent open-source builder        |
-| Technologies   | Marquee of the day-to-day stack                              |
-| Projects (12)  | Flagship shipped products (live + source links, NEW badges)  |
-| Open Source(8) | Repo list with language pills                                |
-| Education (4)  | Degree, certifications, languages                            |
-| Stack (38)     | Numbered categories of tools (per the current CV)            |
-| Footer         | Live GitHub contributions heatmap, socials, theme toggle     |
+| Section        | Content                                                              |
+| -------------- | -------------------------------------------------------------------- |
+| Hero           | Avatar + name + quip, time greeting, intro, contact grid, heatmap     |
+| Companies      | Marquee of places shipped with (Pixelium, OSS, live products)        |
+| Projects (12)  | Compact rows: favicon icon, live/NEW dot, tags, repo + visit links    |
+| Open Source(8) | Repo rows with description, language pill, year                      |
+| Music          | Spotify embed + playlist tiles (TODO: paste real Spotify URL)        |
+| Work (2)       | Accordion rows: Pixelium internship + independent builder            |
+| Education (4)  | Degree, certifications (Anthropic/AWS/KodeKloud), languages          |
+| Stack (38)     | Numbered categories of tools (per the current CV)                    |
+| Footer         | AMINE ASCII banner, live Tunis clock, socials, theme toggle          |
+| Widget         | Floating “Ask me anything” mailto button                             |
 
 ## Stack
 
@@ -47,11 +48,11 @@ npm run dev      # http://localhost:3000
 
 ## Adding a project
 
-Projects are plain data — edit `components/Projects.tsx` (flagship grid) or
+Projects are plain data — edit `components/Projects.tsx` (compact rows) or
 `components/OpenSource.tsx` (repo list):
 
 ```ts
-{ name, year, tags: ['E-Commerce'], desc, link, repo?, isNew? }
+{ name, year, tags: ['E-Commerce'], link, repo?, isNew?, live? }
 ```
 
 See `.opencode/skill/portfolio-ship/SKILL.md` for the full maintenance/ship flow

@@ -6,35 +6,24 @@ import "./globals.css";
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-geist-sans",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600"],
 });
 
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
   title: "Mohamed Amine Ammar — Full Stack Software Developer",
   description:
-    "Full Stack Software Developer in Monastir, Tunisia — building scalable web applications, microservices and AI-powered platforms, from design to cloud deployment.",
-  keywords: [
-    "Mohamed Amine Ammar",
-    "Full Stack Developer",
-    "Next.js",
-    "React",
-    "Node.js",
-    "Go",
-    "AWS",
-    "Tunisia",
-    "Portfolio",
-  ],
+    "Full Stack Software Developer in Monastir, Tunisia — building scalable web applications, microservices and AI-powered platforms.",
+  keywords: ["Mohamed Amine Ammar", "Full Stack Developer", "Next.js", "React", "Go", "Tunisia", "Portfolio"],
   authors: [{ name: "Mohamed Amine Ammar" }],
   openGraph: {
     title: "Mohamed Amine Ammar — Full Stack Software Developer",
-    description:
-      "Scalable web applications, microservices and AI-powered platforms — from design to cloud deployment.",
+    description: "Scalable web applications, microservices and AI-powered platforms.",
     type: "website",
     locale: "en_US",
   },
@@ -42,8 +31,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f6f6f3" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0c0e" },
+    { media: "(prefers-color-scheme: dark)", color: "#080a0c" },
   ],
 };
 
