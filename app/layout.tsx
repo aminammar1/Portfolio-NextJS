@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Old_Standard_TT } from "next/font/google";
 import "./globals.css";
 
 const geist = Geist({
@@ -13,6 +13,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
   weight: ["400", "500"],
+});
+
+const oldStandard = Old_Standard_TT({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -54,7 +60,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geist.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${geist.variable} ${geistMono.variable} ${oldStandard.variable} font-sans antialiased bg-background text-foreground`}
       >
         <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeInit }} />
         {children}

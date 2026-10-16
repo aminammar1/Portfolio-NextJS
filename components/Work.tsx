@@ -2,12 +2,13 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { ChevronRight } from 'lucide-react'
+import { ArrowUpRight, Briefcase, ChevronRight } from 'lucide-react'
 
 type Job = {
   company: string
   initials: string
   logoPath: string | null
+  url: string
   location: string
   role: string
   type: string
@@ -23,6 +24,7 @@ const jobs: Job[] = [
     // TODO(logo): paste your Pixelium logo URL here, or drop the file at
     // public/logos/pixelium.png and set logoPath to '/logos/pixelium.png'.
     logoPath: null,
+    url: 'https://github.com/aminammar1/petcare-platform-next-fastify',
     location: 'Sousse, Tunisia',
     role: 'Web Development Intern',
     type: 'Full Time',
@@ -35,6 +37,7 @@ const jobs: Job[] = [
     company: 'Independent · Open Source Builder',
     initials: 'OS',
     logoPath: null,
+    url: 'https://github.com/aminammar1?tab=repositories',
     location: 'Monastir, Tunisia (Remote)',
     role: 'Full Stack Developer',
     type: 'Self-directed',
@@ -97,14 +100,25 @@ export default function Work() {
                 </div>
                 <div className="flex shrink-0 items-center gap-1 font-mono text-[11px] text-muted">
                   <span className="hidden sm:block">{job.period}</span>
+                  <a
+                    href={job.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${job.company} link`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="rounded p-0.5 transition-colors hover:text-accent"
+                  >
+                    <ArrowUpRight className="size-3.5" />
+                  </a>
                   <ChevronRight className={`size-3.5 transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`} />
                 </div>
               </div>
 
               {isOpen && (
                 <div className="mt-4 border-t border-line pt-3">
-                  <p className="mb-1 font-mono text-[11px] text-muted">
-                    {job.type} · {job.period}
+                  <p className="mb-1 flex items-center gap-1.5 font-mono text-[11px] text-muted">
+                    <Briefcase className="size-3" />
+                    {job.role} · {job.type} · {job.period}
                   </p>
                   <p className="mb-3 text-[13px] leading-relaxed text-foreground/90">{job.summary}</p>
                   <div className="flex flex-wrap gap-1.5">

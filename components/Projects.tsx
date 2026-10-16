@@ -11,6 +11,7 @@ type Project = {
   tags: string[]
   link: string
   repo?: string
+  shot?: string
   isNew?: boolean
   live?: boolean
 }
@@ -31,6 +32,7 @@ const projects: Project[] = [
     tags: ['Microservices', 'RAG'],
     link: 'https://chess-puzzle-next.vercel.app/',
     repo: 'https://github.com/aminammar1/chess-puzzle-next-go',
+    shot: '/projects/image1.png',
     live: true,
   },
   {
@@ -79,6 +81,7 @@ const projects: Project[] = [
     tags: ['Multi-Agent', 'FastAPI'],
     link: 'https://ai-powered-recruitment-app.vercel.app',
     repo: 'https://github.com/aminammar1/ai-powered-recruitment-app',
+    shot: '/projects/image6.png',
     live: true,
   },
   {
@@ -87,6 +90,7 @@ const projects: Project[] = [
     tags: ['E-Commerce', 'Stripe'],
     link: 'https://tunisian-shop-next-js.vercel.app',
     repo: 'https://github.com/aminammar1/TunisianShop-NextJS',
+    shot: '/projects/image2.png',
     live: true,
   },
   {
@@ -95,6 +99,7 @@ const projects: Project[] = [
     tags: ['Full Stack', 'Realtime'],
     link: 'https://petcare-platforme-petpulse.vercel.app',
     repo: 'https://github.com/aminammar1/petcare-platform-next-fastify',
+    shot: '/projects/image5.jpg',
     live: true,
   },
   {
@@ -103,6 +108,7 @@ const projects: Project[] = [
     tags: ['NestJS', 'Stripe'],
     link: 'https://elboutique-store.vercel.app',
     repo: 'https://github.com/aminammar1/elboutique-nextjs-app',
+    shot: '/projects/image3.png',
     live: true,
   },
   {
@@ -110,12 +116,27 @@ const projects: Project[] = [
     year: '2025',
     tags: ['Convex', 'Clerk'],
     link: 'https://it-interview-platform.vercel.app',
+    shot: '/projects/image7.png',
   },
 ]
 
 function ProjectIcon({ project }: { project: Project }) {
   const host = hostOf(project.link)
   const [failed, setFailed] = useState(false)
+  if (project.shot && !failed) {
+    return (
+      <span className="relative size-8 shrink-0 overflow-hidden rounded-md border border-line bg-card-2">
+        <Image
+          src={project.shot}
+          alt=""
+          fill
+          sizes="32px"
+          className="object-cover"
+          onError={() => setFailed(true)}
+        />
+      </span>
+    )
+  }
   if (!host || failed) {
     const words = project.name.replace(/[^A-Za-z0-9 ]/g, '').split(/\s+/).filter(Boolean)
     const initials =

@@ -15,10 +15,10 @@ const artists: Artist[] = [
     url: 'https://open.spotify.com/artist/2ye2Wgw4gimLv9eAKaQGXAT',
   },
   {
-    name: 'Pink Floyd',
-    genre: 'Progressive rock',
-    image: '/artists/pinkfloyd.png',
-    url: 'https://open.spotify.com/artist/69GGBxA162lTqCwzJG5jFk',
+    name: 'Billie Eilish',
+    genre: 'Alt pop',
+    image: '/artists/billieeilish.jpg',
+    url: 'https://open.spotify.com/search/Billie%20Eilish',
   },
   {
     name: 'Eminem',

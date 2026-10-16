@@ -10,8 +10,9 @@ Compact resume-dossier design (light + dark theme) built with Next.js 16, React 
 | Section        | Content                                                              |
 | -------------- | -------------------------------------------------------------------- |
 | Hero           | Avatar + name + quip, time greeting, intro, contact grid, heatmap     |
+| Gallery        | Tilted photo cards + perforated stamps + socials (public assets)     |
 | Companies      | Marquee of places shipped with (Pixelium, OSS, live products)        |
-| Projects (12)  | Compact rows: favicon icon, live/NEW dot, tags, repo + visit links    |
+| Projects (12)  | Compact rows: real screenshot, live/NEW dot, tags, repo + visit      |
 | Open Source(8) | Repo rows with description, language pill, year                      |
 | Artists (4)    | Favorite artists with local photos in `public/artists/`           |
 | Reading (8)    | Manga + Arabic novel covers, local files in `public/books/`        |
@@ -19,7 +20,16 @@ Compact resume-dossier design (light + dark theme) built with Next.js 16, React 
 | Education (4)  | Degree, certifications (Anthropic/AWS/KodeKloud), languages          |
 | Stack (38)     | Numbered categories of tools (per the current CV)                    |
 | Footer         | AMINE ASCII banner, live Tunis clock, socials, theme toggle          |
-| Widget         | Floating “Ask me anything” mailto button                             |
+| Widget         | Floating "Ask me anything" textarea → mailto draft                   |
+| Backdrop       | Hatched divider strips + giant AMINE watermark + blueprint grid      |
+
+Reference reverse-engineering notes (from headless-Chrome DOM dumps of
+malekgarahellal.com): project rows use 32px square covers; stamps use a
+radial-gradient perforation mask with a serif display face (Old Standard TT,
+loaded as `--font-display`); the ask widget is a textarea + send button;
+section order is About → Work → Education → Companies → Projects → Blog →
+Stack → Music → Reading. Blog/Contributing sections are intentionally omitted
+until there is real content — never copy another person&apos;s entries.
 
 ## Stack
 

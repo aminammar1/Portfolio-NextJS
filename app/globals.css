@@ -46,6 +46,7 @@
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-display: var(--font-display), Georgia, serif;
 }
 
 html {
@@ -124,6 +125,39 @@ body {
 }
 .row-hover:hover {
   background: var(--color-card-2);
+}
+
+/* Diagonal hatched divider strip (reference signature) */
+.hatch {
+  height: 14px;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-line) 0 1px,
+    transparent 1px 7px
+  );
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+
+/* Subtle blueprint grid backdrop */
+.bg-blueprint {
+  background-image:
+    linear-gradient(to right, var(--color-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 30%, transparent 75%);
+}
+
+/* Postage stamp perforation (reference technique) */
+.stamp {
+  width: 80px;
+  mask:
+    radial-gradient(circle, transparent 2.6px, black 3.1px) -4px -4px / 8px 8px round,
+    linear-gradient(black, black) center / calc(100% - 7px) calc(100% - 7px) no-repeat;
+  -webkit-mask:
+    radial-gradient(circle, transparent 2.6px, black 3.1px) -4px -4px / 8px 8px round,
+    linear-gradient(black, black) center / calc(100% - 7px) calc(100% - 7px) no-repeat;
 }
 
 @keyframes marquee {
