@@ -117,9 +117,14 @@ function ProjectIcon({ project }: { project: Project }) {
   const host = hostOf(project.link)
   const [failed, setFailed] = useState(false)
   if (!host || failed) {
+    const words = project.name.replace(/[^A-Za-z0-9 ]/g, '').split(/\s+/).filter(Boolean)
+    const initials =
+      words.length > 1
+        ? (words[0][0] + words[1][0]).toUpperCase()
+        : project.name.slice(0, 2).toUpperCase()
     return (
-      <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-line bg-card-2">
-        <FaGithub className="size-4 text-muted" />
+      <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-line bg-accent-soft font-mono text-[11px] font-bold text-accent">
+        {initials}
       </span>
     )
   }

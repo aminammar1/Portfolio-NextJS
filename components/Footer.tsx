@@ -53,9 +53,18 @@ export default function Footer() {
   return (
     <footer className="mx-auto max-w-4xl px-4 pb-24 pt-16">
       <div className="overflow-hidden rounded-xl border border-line bg-card p-4">
-        <pre className="overflow-x-auto font-mono text-[9px] leading-[1.35] text-accent/80 sm:text-[10px]">
+        <pre className="overflow-x-auto bg-gradient-to-r from-accent via-cyan-400 to-violet-400 bg-clip-text font-mono text-[9px] font-bold leading-[1.35] text-transparent sm:text-[10px]">
           {ASCII.join('\n')}
         </pre>
+        <div
+          aria-hidden="true"
+          className="mt-2 h-px w-full opacity-60"
+          style={{
+            backgroundImage: 'radial-gradient(circle, var(--color-muted) 1px, transparent 1px)',
+            backgroundSize: '8px 1px',
+            backgroundRepeat: 'repeat-x',
+          }}
+        />
       </div>
 
       <div className="mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row">

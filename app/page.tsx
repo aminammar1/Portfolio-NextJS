@@ -3,7 +3,7 @@ import Hero from '@/components/Hero'
 import Companies from '@/components/Companies'
 import Projects from '@/components/Projects'
 import OpenSource from '@/components/OpenSource'
-import Music from '@/components/Music'
+import Artists from '@/components/Artists'
 import Reading from '@/components/Reading'
 import Work from '@/components/Work'
 import Education from '@/components/Education'
@@ -19,7 +19,7 @@ export default function Home() {
       <Companies />
       <Projects />
       <OpenSource />
-      <Music />
+      <Artists />
       <Reading />
       <Work />
       <Education />
