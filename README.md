@@ -13,7 +13,8 @@ Compact resume-dossier design (light + dark theme) built with Next.js 16, React 
 | Companies      | Marquee of places shipped with (Pixelium, OSS, live products)        |
 | Projects (12)  | Compact rows: favicon icon, live/NEW dot, tags, repo + visit links    |
 | Open Source(8) | Repo rows with description, language pill, year                      |
-| Music          | Spotify embed + playlist tiles (TODO: paste real Spotify URL)        |
+| Music          | Spotify profile card (open.spotify.com/user/amin740)               |
+| Reading (8)    | Manga + Arabic novel covers, local files in `public/books/`        |
 | Work (2)       | Accordion rows: Pixelium internship + independent builder            |
 | Education (4)  | Degree, certifications (Anthropic/AWS/KodeKloud), languages          |
 | Stack (38)     | Numbered categories of tools (per the current CV)                    |

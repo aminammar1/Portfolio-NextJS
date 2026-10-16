@@ -33,7 +33,7 @@ const jobs: Job[] = [
   },
   {
     company: 'Independent · Open Source Builder',
-    initials: '◆',
+    initials: 'OS',
     logoPath: null,
     location: 'Monastir, Tunisia (Remote)',
     role: 'Full Stack Developer',

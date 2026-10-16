@@ -4,6 +4,7 @@ import Companies from '@/components/Companies'
 import Projects from '@/components/Projects'
 import OpenSource from '@/components/OpenSource'
 import Music from '@/components/Music'
+import Reading from '@/components/Reading'
 import Work from '@/components/Work'
 import Education from '@/components/Education'
 import Stack from '@/components/Stack'
@@ -19,6 +20,7 @@ export default function Home() {
       <Projects />
       <OpenSource />
       <Music />
+      <Reading />
       <Work />
       <Education />
       <Stack />

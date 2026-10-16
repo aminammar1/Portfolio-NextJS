@@ -4,11 +4,11 @@ import React from 'react'
 
 const companies = [
   { initials: 'PX', name: 'Pixelium', url: 'https://github.com/aminammar1/petcare-platform-next-fastify' },
-  { initials: '◆', name: 'Independent OSS', url: 'https://github.com/aminammar1?tab=repositories' },
-  { initials: '♞', name: 'Chess Puzzle', url: 'https://chess-puzzle-next.vercel.app/' },
-  { initials: '🛒', name: 'Hanouti.tn', url: 'https://tunisian-shop-next-js.vercel.app' },
-  { initials: '🐾', name: 'PetPulse', url: 'https://petcare-platforme-petpulse.vercel.app' },
-  { initials: '👔', name: 'ElBoutique', url: 'https://elboutique-store.vercel.app' },
+  { initials: 'OS', name: 'Independent OSS', url: 'https://github.com/aminammar1?tab=repositories' },
+  { initials: 'CP', name: 'Chess Puzzle', url: 'https://chess-puzzle-next.vercel.app/' },
+  { initials: 'HT', name: 'Hanouti.tn', url: 'https://tunisian-shop-next-js.vercel.app' },
+  { initials: 'PP', name: 'PetPulse', url: 'https://petcare-platforme-petpulse.vercel.app' },
+  { initials: 'EB', name: 'ElBoutique', url: 'https://elboutique-store.vercel.app' },
 ]
 
 export default function Companies() {
