@@ -1,7 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
-import { Geist, Geist_Mono, Old_Standard_TT } from "next/font/google";
+import { Geist, Geist_Mono, Old_Standard_TT, Poppins } from "next/font/google";
 import "./globals.css";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 const geist = Geist({
   subsets: ["latin"],
@@ -60,9 +65,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geist.variable} ${geistMono.variable} ${oldStandard.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${poppins.variable} ${geist.variable} ${geistMono.variable} ${oldStandard.variable} font-sans antialiased bg-background text-foreground`}
       >
-        <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeInit }} />
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         {children}
       </body>
     </html>

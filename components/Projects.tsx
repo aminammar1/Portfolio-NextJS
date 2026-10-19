@@ -12,8 +12,7 @@ type Project = {
   link: string
   repo?: string
   shot?: string
-  isNew?: boolean
-  live?: boolean
+  note: string
 }
 
 function hostOf(url: string): string | null {
@@ -33,47 +32,7 @@ const projects: Project[] = [
     link: 'https://chess-puzzle-next.vercel.app/',
     repo: 'https://github.com/aminammar1/chess-puzzle-next-go',
     shot: '/projects/image1.png',
-    live: true,
-  },
-  {
-    name: 'turtles-cli',
-    year: '2025',
-    tags: ['AI Tools', 'OSS'],
-    link: 'https://github.com/aminammar1/turtles-cli',
-    isNew: true,
-  },
-  {
-    name: 'Detective Files',
-    year: '2026',
-    tags: ['Godot 4', 'Go/Gin'],
-    link: 'https://github.com/aminammar1/detective-files-gadot-go',
-    isNew: true,
-  },
-  {
-    name: 'Drone Detect App',
-    year: '2026',
-    tags: ['YOLO', 'Go/Gin'],
-    link: 'https://github.com/aminammar1/drone-detect-app-go',
-    isNew: true,
-  },
-  {
-    name: 'Arch Shell Assistant',
-    year: '2026',
-    tags: ['AI Agent', 'CLI'],
-    link: 'https://github.com/aminammar1/arch-shell-assistant',
-    isNew: true,
-  },
-  {
-    name: 'Desktop Personal Assistant',
-    year: '2026',
-    tags: ['C++ · Qt 6', 'MVVM'],
-    link: 'https://github.com/aminammar1/desktop-personal-assistant',
-  },
-  {
-    name: 'Stockfish Analysis Service',
-    year: '2026',
-    tags: ['Go', 'AWS EC2'],
-    link: 'https://github.com/aminammar1/stockfish-go-ec2',
+    note: 'Live',
   },
   {
     name: 'AI CV-JD Matcher',
@@ -82,7 +41,7 @@ const projects: Project[] = [
     link: 'https://ai-powered-recruitment-app.vercel.app',
     repo: 'https://github.com/aminammar1/ai-powered-recruitment-app',
     shot: '/projects/image6.png',
-    live: true,
+    note: 'Live',
   },
   {
     name: 'Hanouti.tn',
@@ -91,7 +50,7 @@ const projects: Project[] = [
     link: 'https://tunisian-shop-next-js.vercel.app',
     repo: 'https://github.com/aminammar1/TunisianShop-NextJS',
     shot: '/projects/image2.png',
-    live: true,
+    note: 'Live',
   },
   {
     name: 'PetPulse',
@@ -100,7 +59,7 @@ const projects: Project[] = [
     link: 'https://petcare-platforme-petpulse.vercel.app',
     repo: 'https://github.com/aminammar1/petcare-platform-next-fastify',
     shot: '/projects/image5.jpg',
-    live: true,
+    note: 'Live',
   },
   {
     name: 'ElBoutique',
@@ -109,7 +68,7 @@ const projects: Project[] = [
     link: 'https://elboutique-store.vercel.app',
     repo: 'https://github.com/aminammar1/elboutique-nextjs-app',
     shot: '/projects/image3.png',
-    live: true,
+    note: 'Live',
   },
   {
     name: 'CodeTrix',
@@ -117,6 +76,7 @@ const projects: Project[] = [
     tags: ['Convex', 'Clerk'],
     link: 'https://it-interview-platform.vercel.app',
     shot: '/projects/image7.png',
+    note: 'Live',
   },
 ]
 
@@ -125,12 +85,12 @@ function ProjectIcon({ project }: { project: Project }) {
   const [failed, setFailed] = useState(false)
   if (project.shot && !failed) {
     return (
-      <span className="relative size-8 shrink-0 overflow-hidden rounded-md border border-line bg-card-2">
+      <span className="relative size-9 shrink-0 overflow-hidden rounded-md border border-line bg-card-2">
         <Image
           src={project.shot}
           alt=""
           fill
-          sizes="32px"
+          sizes="36px"
           className="object-cover"
           onError={() => setFailed(true)}
         />
@@ -163,53 +123,48 @@ function ProjectIcon({ project }: { project: Project }) {
   )
 }
 
+import PanelHeading from '@/components/PanelHeading'
+
 export default function Projects() {
   const [showAll, setShowAll] = useState(false)
   const visible = showAll ? projects : projects.slice(0, 6)
 
   return (
-    <section id="projects" className="mx-auto max-w-4xl scroll-mt-16 px-4 pt-14">
-      <div className="flex items-baseline justify-between">
-        <p className="section-label">Projects ({projects.length})</p>
-        <a
-          href="https://github.com/aminammar1?tab=repositories"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[12px] text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
-        >
-          all repositories &rarr;
-        </a>
-      </div>
-      <h2 className="mt-1 text-xl font-semibold tracking-tight">
-        I love shipping products and open source software.
-      </h2>
+    <section id="projects" className="screen-line mx-auto sm:max-w-lg md:max-w-2xl xl:max-w-3xl scroll-mt-24 px-4 pb-2 pt-14">
+      <PanelHeading
+        title="Projects"
+        count={projects.length}
+        description="I love shipping products and open source software"
+      />
 
-      <div className="mt-6 flex flex-col gap-2">
+      <div className="mt-6 flex flex-col">
         {visible.map((p) => (
           <div
             key={p.name}
-            className="row-hover group relative flex items-center gap-3 rounded-xl border border-line bg-card px-3 py-2.5"
+            role="link"
+            tabIndex={0}
+            onClick={() => window.open(p.link, '_blank', 'noopener')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                window.open(p.link, '_blank', 'noopener')
+              }
+            }}
+            className="group relative -mx-2 flex cursor-pointer items-center gap-3 rounded-lg border-b border-line px-2 py-3 outline-none transition-colors last:border-b-0 hover:bg-card-2 focus-visible:ring-2 focus-visible:ring-accent"
           >
-            <a
-              href={p.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={p.name}
-              className="absolute inset-0 z-[1] rounded-xl"
-            />
             <ProjectIcon project={p} />
-            <span className="min-w-0 flex-1 truncate text-[13px] font-medium group-hover:underline group-hover:underline-offset-4">
-              {p.name}
+            <span className="min-w-0 flex-1">
+              <span className="flex items-center gap-2">
+                <span className="truncate text-sm font-semibold">{p.name}</span>
+                <span className="relative flex size-2 shrink-0" title={p.note}>
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-60" />
+                  <span className="relative inline-flex size-2 rounded-full bg-green-500" />
+                </span>
+              </span>
+              <span className="mt-0.5 block text-xs text-muted">{p.year}</span>
             </span>
-            {p.isNew ? (
-              <span className="pill shrink-0 !text-accent">NEW</span>
-            ) : p.live ? (
-              <span className="live-dot shrink-0" />
-            ) : (
-              <span className="hidden shrink-0 font-mono text-[10px] text-muted/60 sm:block">{p.year}</span>
-            )}
-            <div className="hidden shrink-0 gap-1 md:flex">
-              {p.tags.map((t) => (
+            <div className="hidden shrink-0 items-center gap-1.5 sm:flex">
+              {p.tags.slice(0, 2).map((t) => (
                 <span key={`${p.name}-${t}`} className="pill">
                   {t}
                 </span>
@@ -221,12 +176,13 @@ export default function Projects() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${p.name} source code`}
-                className="relative z-[2] hidden shrink-0 rounded p-1 text-muted transition-colors hover:bg-card-2 hover:text-foreground sm:block"
+                onClick={(e) => e.stopPropagation()}
+                className="relative z-[2] hidden shrink-0 rounded p-1 text-muted transition-colors hover:bg-card hover:text-foreground sm:block"
               >
-                <FaGithub className="size-3.5" />
+                <FaGithub className="size-4" />
               </a>
             )}
-            <ArrowUpRight className="size-4 shrink-0 text-muted transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
+            <ArrowUpRight className="size-4 shrink-0 text-muted" />
           </div>
         ))}
       </div>

@@ -1,84 +1,129 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
 import { FaFacebookF, FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
+import { Moon, Sun, Sunrise, Sunset } from 'lucide-react'
 import ThemeToggle from '@/components/ThemeToggle'
+import SkyWordmark from '@/components/SkyWordmark'
+import PacmanStrip from '@/components/PacmanStrip'
 import { useTunisTime } from '@/components/TunisTime'
+import { cn } from '@/lib/utils'
 
-const ASCII = [
-  ' █████╗ ███╗   ███╗██╗███╗   ██╗███████╗ ',
-  '██╔══██╗████╗ ████║██║████╗  ██║██╔════╝ ',
-  '███████║██╔████╔██║██║██╔██╗ ██║█████╗   ',
-  '██╔══██║██║╚██╔╝██║██║██║╚██╗██║██╔══╝   ',
-  '██║  ██║██║ ╚═╝ ██║██║██║ ╚████║███████╗ ',
-  '╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝ ',
-]
+type Phase = 'dawn' | 'day' | 'dusk' | 'night'
 
-function FooterClock() {
-  const { label, isDay } = useTunisTime()
+function phaseFor(hour: number): Phase {
+  if (hour >= 5 && hour < 7) return 'dawn'
+  if (hour >= 7 && hour < 18) return 'day'
+  if (hour >= 18 && hour < 20) return 'dusk'
+  return 'night'
+}
+
+const PHASE_META: Record<Phase, { gradient: string; glow: string; Icon: typeof Sun; label: string }> = {
+  dawn: {
+    gradient: 'from-lime-300 via-emerald-300 to-cyan-300',
+    glow: 'rgba(163, 230, 53, 0.4)',
+    Icon: Sunrise,
+    label: 'dawn',
+  },
+  day: {
+    gradient: 'from-sky-500 via-cyan-400 to-blue-500',
+    glow: 'rgba(56, 189, 248, 0.4)',
+    Icon: Sun,
+    label: 'day',
+  },
+  dusk: {
+    gradient: 'from-emerald-400 via-teal-300 to-cyan-400',
+    glow: 'rgba(52, 211, 153, 0.4)',
+    Icon: Sunset,
+    label: 'dusk',
+  },
+  night: {
+    gradient: 'from-indigo-300 via-slate-200 to-cyan-200',
+    glow: 'rgba(165, 180, 252, 0.35)',
+    Icon: Moon,
+    label: 'night',
+  },
+}
+
+function useTunisPhase(): Phase {
+  const [phase, setPhase] = React.useState<Phase>('day')
+  React.useEffect(() => {
+    const compute = () => {
+      const hour = Number(
+        new Intl.DateTimeFormat('en-GB', { hour: '2-digit', hour12: false, timeZone: 'Africa/Tunis' }).format(
+          new Date()
+        )
+      )
+      setPhase(phaseFor(hour))
+    }
+    compute()
+    const id = setInterval(compute, 60000)
+    return () => clearInterval(id)
+  }, [])
+  return phase
+}
+
+function SkyClock() {
+  const { label } = useTunisTime()
+  const phase = useTunisPhase()
+  const meta = PHASE_META[phase]
   return (
-    <span className="flex items-center gap-2 font-mono text-[11px] text-muted">
-      <span className="inline-block size-1.5 rounded-sm bg-accent" />
-      TUNIS · {label} {isDay ? 'DAY' : 'NIGHT'}
+    <span className="hidden items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted sm:inline-flex">
+      <span
+        aria-hidden
+        className={cn('size-2 shrink-0 rounded-[1px] bg-gradient-to-r', meta.gradient)}
+        style={{ boxShadow: `0 0 8px ${meta.glow}` }}
+      />
+      <span>
+        Monastir · <time>{label}</time>
+      </span>
+      <span className="text-muted/60">{meta.label}</span>
     </span>
   )
 }
 
 const socials = [
   { Icon: FaFacebookF, link: 'https://www.facebook.com/profile.php?id=100009032685978', label: 'Facebook' },
+  { Icon: FaInstagram, link: 'https://www.instagram.com/amine_ammr/', label: 'Instagram' },
   { Icon: FaLinkedinIn, link: 'https://www.linkedin.com/in/mohamed-amine-ammar/', label: 'LinkedIn' },
   { Icon: FaGithub, link: 'https://github.com/aminammar1', label: 'GitHub' },
-  { Icon: FaInstagram, link: 'https://www.instagram.com/amine_ammr/', label: 'Instagram' },
 ]
 
 export default function Footer() {
   return (
-    <footer className="mx-auto max-w-4xl px-4 pb-24 pt-16">
-      <div className="overflow-hidden rounded-xl border border-line bg-card p-4">
-        <pre className="overflow-x-auto bg-gradient-to-r from-accent via-cyan-400 to-violet-400 bg-clip-text font-mono text-[9px] font-bold leading-[1.35] text-transparent sm:text-[10px]">
-          {ASCII.join('\n')}
-        </pre>
-        <div
-          aria-hidden="true"
-          className="mt-2 h-px w-full opacity-60"
-          style={{
-            backgroundImage: 'radial-gradient(circle, var(--color-muted) 1px, transparent 1px)',
-            backgroundSize: '8px 1px',
-            backgroundRepeat: 'repeat-x',
-          }}
-        />
+    <footer className="w-full space-y-4 border-t border-line px-2 py-4">
+      <div className="mx-auto flex sm:max-w-lg md:max-w-2xl xl:max-w-3xl items-center gap-4 px-4">
+        {socials.map(({ Icon, link, label }) => (
+          <a
+            key={label}
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={label}
+            className="text-foreground/80 transition-all duration-200 hover:text-accent"
+          >
+            <Icon className="size-4" />
+          </a>
+        ))}
       </div>
 
-      <div className="mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <span className="font-mono text-[11px] text-muted">
-          &copy; {new Date().getFullYear()} Mohamed Amine Ammar. All rights reserved.
-        </span>
-
-        <FooterClock />
-
-        <div className="flex items-center gap-2">
-          {socials.map(({ Icon, link, label: name }) => (
-            <a
-              key={name}
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={name}
-              className="flex size-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-accent-soft hover:text-accent"
-            >
-              <Icon className="size-4" />
-            </a>
-          ))}
-          <Link
-            href="#about"
-            className="ml-1 font-mono text-[11px] text-muted transition-colors hover:text-accent"
-          >
-            back to top &uarr;
-          </Link>
+      <div className="mx-auto flex sm:max-w-lg md:max-w-2xl xl:max-w-3xl items-center justify-between px-4">
+        <p className="text-xs text-muted">
+          © {new Date().getFullYear()}{' '}
+          <span className="font-semibold tracking-wide text-accent">MOHAMED AMINE</span>. All rights
+          reserved.
+        </p>
+        <div className="flex items-center gap-4">
+          <SkyClock />
           <ThemeToggle />
         </div>
       </div>
-    </footer>
+
+      <div className="mx-auto mb-20 sm:max-w-lg md:max-w-2xl xl:max-w-3xl px-4 pt-2">
+        <PacmanStrip />
+        <div className="mt-2">
+          <SkyWordmark />
+        </div>
+      </div>    </footer>
   )
 }

@@ -1,19 +1,20 @@
 import React from 'react'
-import { Award, GraduationCap, Languages as LanguagesIcon } from 'lucide-react'
+import { GraduationCap } from 'lucide-react'
+import PanelHeading from '@/components/PanelHeading'
 
 const education = [
   {
     school: 'Faculty of Sciences of Monastir',
-    degree: 'Bachelor\u2019s Degree in Software Engineering',
+    degree: 'Bachelor\u2019s Degree, Software Engineering',
     period: '2021 — 2024',
-    place: 'Monastir, Tunisia',
+    location: 'Monastir, Tunisia',
   },
-]
-
-const certifications = [
-  { name: 'Claude Code in Action', issuer: 'Anthropic', year: '2026' },
-  { name: 'AWS Technical Essentials', issuer: 'Amazon Web Services', year: '2025' },
-  { name: 'Docker Basics for DevOps', issuer: 'KodeKloud', year: '2025' },
+  {
+    school: 'Lycée Fatouma Bourguiba',
+    degree: 'Baccalauréat',
+    period: '2021',
+    location: 'Monastir, Tunisia',
+  },
 ]
 
 const languages = [
@@ -24,56 +25,32 @@ const languages = [
 
 export default function Education() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pt-14">
-      <p className="section-label">Education &amp; Certifications (4)</p>
-      <h2 className="mt-1 text-xl font-semibold tracking-tight">My academic background.</h2>
+    <section id="education" className="screen-line mx-auto sm:max-w-lg md:max-w-2xl xl:max-w-3xl scroll-mt-24 px-4 pb-2 pt-14">
+      <PanelHeading title="Education" count={education.length} />
 
-      <div className="mt-6 grid gap-3 lg:grid-cols-2">
-        <div className="flex flex-col gap-3">
-          {education.map((e) => (
-            <div key={e.school} className="row-hover flex items-start gap-3 rounded-xl border border-line bg-card p-4">
-              <GraduationCap className="mt-0.5 size-4 shrink-0 text-accent" />
-              <div className="flex flex-1 flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                <div>
-                  <p className="text-[14px] font-semibold">{e.school}</p>
-                  <p className="text-[13px] text-muted">{e.degree}</p>
-                </div>
-                <div className="text-right">
-                  <p className="font-mono text-[12px] text-muted">{e.period}</p>
-                  <p className="font-mono text-[11px] text-muted/70">{e.place}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-          <div className="rounded-xl border border-line bg-card p-4">
-            <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-muted">
-              <LanguagesIcon className="size-3.5 text-accent" />
-              Languages
-            </p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {languages.map((l) => (
-                <span key={l.name} className="pill">
-                  {l.name} · {l.level}
-                </span>
-              ))}
+      <div>
+        {education.map((e) => (
+          <div
+            key={e.school}
+            className="flex items-center gap-3 border-b border-line px-2 py-4 last:border-b-0"
+          >
+            <GraduationCap className="size-4 shrink-0 text-muted" />
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold">{e.school}</p>
+              <p className="truncate text-xs text-muted">
+                {e.degree} · {e.period} · {e.location}
+              </p>
             </div>
           </div>
-        </div>
+        ))}
+      </div>
 
-        <div className="flex flex-col gap-3">
-          {certifications.map((c) => (
-            <div key={c.name} className="row-hover flex items-start gap-3 rounded-xl border border-line bg-card p-4">
-              <Award className="mt-0.5 size-4 shrink-0 text-accent" />
-              <div className="flex flex-1 flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                <div>
-                  <p className="text-[14px] font-semibold">{c.name}</p>
-                  <p className="text-[13px] text-muted">{c.issuer}</p>
-                </div>
-                <span className="font-mono text-[12px] text-muted">{c.year}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="mt-4 flex flex-wrap gap-1.5 px-2">
+        {languages.map((l) => (
+          <span key={l.name} className="pill">
+            {l.name} · {l.level}
+          </span>
+        ))}
       </div>
     </section>
   )

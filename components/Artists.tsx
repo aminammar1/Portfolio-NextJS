@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import SectionHeading from '@/components/SectionHeading'
 
 type Artist = {
   name: string
@@ -36,34 +37,28 @@ const artists: Artist[] = [
 
 export default function Artists() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pt-14">
-      <p className="section-label">Artists ({artists.length})</p>
-      <h2 className="mt-1 text-xl font-semibold tracking-tight">
-        On repeat, on every deploy.
-      </h2>
+    <section id="artists" className="scroll-mt-24">
+      <SectionHeading title="Artists" count={artists.length} description="On repeat, on every deploy" />
 
-      <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {artists.map((a) => (
           <a
             key={a.name}
             href={a.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group"
+            className="group flex flex-col gap-2"
           >
-            <div className="relative aspect-square overflow-hidden rounded-lg border border-line bg-card-2 transition-colors group-hover:border-accent/50">
+            <div className="relative aspect-square overflow-hidden rounded-lg border border-line bg-card-2">
               <Image
                 src={a.image}
                 alt={a.name}
                 fill
                 sizes="(max-width: 640px) 50vw, 25vw"
-                className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.04]"
+                className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
               />
             </div>
-            <p className="mt-2 truncate text-[13px] font-medium group-hover:underline group-hover:underline-offset-4">
-              {a.name}
-            </p>
-            <p className="truncate font-mono text-[11px] text-muted">{a.genre}</p>
+            <span className="line-clamp-1 text-sm font-medium">{a.name}</span>
           </a>
         ))}
       </div>

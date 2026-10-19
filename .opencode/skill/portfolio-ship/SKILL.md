@@ -22,7 +22,7 @@ Workflow for safely releasing updates to the Mohamed Amine Ammar portfolio (Next
 
 - Sections are single-column, `max-w-4xl mx-auto px-4`, composed in `app/page.tsx`: Hero → Companies → Projects → Open Source → Music → Work → Education → Stack → Footer (+ floating AskMeAnything). Keep section order and the `aria`-friendly structure.
 - Theming: CSS variables in `app/globals.css` (`:root` light, `.dark` overrides) mapped through `@theme inline` — `background/card/card-2/foreground/muted/line/accent/accent-soft`. Dark mode is a `.dark` class on `<html>` toggled by `components/ThemeToggle.tsx`, initialized pre-hydration by the inline script in `app/layout.tsx` (keep `suppressHydrationWarning`). Accent: green `#16a34a` (light) / `#22c55e` (dark).
-- Shared utility classes live in `globals.css`: `section-label`, `pill`, `live-dot`, `row-hover`, `marquee-mask`, `animate-marquee`.
+- Shared utility classes live in `globals.css`: `section-label`, `pill`, `row-hover`, `hatch`, `stamp`, `animate-shine`.
 - Fonts are Geist + Geist Mono via `next/font` in `app/layout.tsx`. Use `font-mono` for microcopy, years and labels.
 - Content data lives inline in each component (Companies, Projects, OpenSource, Music, Work, Education, Stack). Principles: honest data only — real dates, real links; new projects get `isNew` badges and deployed ones get the `live` dot; never copy another person&apos;s projects/companies. Brand icons: use `react-icons/fa` (e.g. `FaGithub`) — lucide-react has no brand icons. Company/project logos: initials tiles by default; swap in a real file under `public/logos/` (see `TODO(logo)` in `Work.tsx`) or paste the owner-provided URL.
 

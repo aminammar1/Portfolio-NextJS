@@ -13,6 +13,42 @@ type Repo = {
 
 const repos: Repo[] = [
   {
+    name: 'turtles-cli',
+    desc: 'Terminal toolkit with AI assistance for everyday dev tasks.',
+    lang: 'AI Tools · OSS',
+    year: '2025',
+  },
+  {
+    name: 'detective-files-gadot-go',
+    desc: 'Detective game built with Godot 4 and a Go/Gin backend.',
+    lang: 'Godot 4 · Go/Gin',
+    year: '2026',
+  },
+  {
+    name: 'drone-detect-app-go',
+    desc: 'Drone detection experiments with YOLO and a Go/Gin service.',
+    lang: 'YOLO · Go/Gin',
+    year: '2026',
+  },
+  {
+    name: 'arch-shell-assistant',
+    desc: 'AI assistant living in the Arch Linux shell.',
+    lang: 'AI Agent · CLI',
+    year: '2026',
+  },
+  {
+    name: 'desktop-personal-assistant',
+    desc: 'C++/Qt desktop assistant built with MVVM.',
+    lang: 'C++ · Qt 6',
+    year: '2026',
+  },
+  {
+    name: 'stockfish-go-ec2',
+    desc: 'Remote chess engine analysis powered by Stockfish on AWS EC2.',
+    lang: 'Go · AWS EC2',
+    year: '2026',
+  },
+  {
     name: 'chess-coach-openings-RAG',
     desc: 'Chess opening coach powered by retrieval augmented generation.',
     lang: 'Python',
@@ -26,7 +62,7 @@ const repos: Repo[] = [
   },
   {
     name: 'image-generator-next-app',
-    desc: 'AI creative studio — generate images, edit photos and create videos from one workspace.',
+    desc: 'AI creative studio. Generate images, edit photos and create videos from one workspace.',
     lang: 'TypeScript · Replicate',
     year: '2026',
   },
@@ -38,7 +74,7 @@ const repos: Repo[] = [
   },
   {
     name: 'farm-managment-app',
-    desc: 'Farming management desktop app for Tunisian farmers — Fastify backend + Electron client.',
+    desc: 'Farming management desktop app for Tunisian farmers. Fastify backend + Electron client.',
     lang: 'TypeScript · Electron',
     year: '2026',
   },
@@ -50,23 +86,28 @@ const repos: Repo[] = [
   },
   {
     name: 'video-player-nextjs',
-    desc: 'Browser-based synced video player — designed to watch together on one screen.',
+    desc: 'Browser-based synced video player. Designed to watch together on one screen.',
     lang: 'TypeScript · Next.js',
     year: '2025',
   },
   {
     name: 'omnitrix-ben10-react',
-    desc: 'Fan project recreating the Omnitrix device from Ben 10 — selectable aliens, interactive FX.',
+    desc: 'Fan project recreating the Omnitrix device from Ben 10. Selectable aliens, interactive FX.',
     lang: 'React Native',
     year: '2026',
   },
 ]
 
+import PanelHeading from '@/components/PanelHeading'
+
 export default function OpenSource() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pt-14">
-      <p className="section-label">Open Source ({repos.length})</p>
-      <h2 className="mt-1 text-xl font-semibold tracking-tight">More experiments living in public.</h2>
+    <section className="screen-line mx-auto sm:max-w-lg md:max-w-2xl xl:max-w-3xl scroll-mt-24 px-4 pb-2 pt-14">
+      <PanelHeading
+        title="Open Source"
+        count={repos.length}
+        description="More experiments living in public"
+      />
 
       <div className="mt-6 overflow-hidden rounded-xl border border-line">
         {repos.map((r, i) => (

@@ -4,11 +4,14 @@
 
 :root {
   --bg: #f6f6f3;
+  --background: #f6f6f3;
+  --foreground: #191a1c;
   --card: #ffffff;
   --card-2: #efefea;
   --text: #191a1c;
   --muted: #6b6d74;
   --line: rgba(25, 26, 28, 0.1);
+  --line-strong: #d9d9d4;
   --accent: #16a34a;
   --accent-soft: rgba(22, 163, 74, 0.1);
   --heat-0: #e8e8e4;
@@ -20,11 +23,14 @@
 
 .dark {
   --bg: #080a0c;
+  --background: #080a0c;
+  --foreground: #e8eaed;
   --card: #101316;
   --card-2: #14181c;
   --text: #e8eaed;
   --muted: #8b9096;
   --line: rgba(232, 234, 237, 0.09);
+  --line-strong: rgba(232, 234, 237, 0.2);
   --accent: #22c55e;
   --accent-soft: rgba(34, 197, 94, 0.12);
   --heat-0: #161b22;
@@ -44,9 +50,21 @@
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
   --font-display: var(--font-display), Georgia, serif;
+
+  --animate-shine: shine 4s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200%;
+  }
+  50%,
+  100% {
+    background-position: -200%;
+  }
 }
 
 html {
@@ -101,25 +119,6 @@ body {
   white-space: nowrap;
 }
 
-.live-dot {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--color-accent);
-  white-space: nowrap;
-}
-.live-dot::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  box-shadow: 0 0 8px var(--color-accent);
-}
-
 .row-hover {
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
@@ -127,19 +126,22 @@ body {
   background: var(--color-card-2);
 }
 
-/* Diagonal hatched divider strip (reference signature) */
+/* Diagonal hatched divider strip (reference signature) -- dense 1px stripes
+   on an 8px diagonal tile across the full band, edged with hairlines */
 .hatch {
-  height: 14px;
   background-image: repeating-linear-gradient(
-    -45deg,
-    var(--color-line) 0 1px,
-    transparent 1px 7px
+    315deg,
+    var(--line-strong) 0,
+    var(--line-strong) 1px,
+    transparent 0,
+    transparent 50%
   );
+  background-size: 8px 8px;
   border-top: 1px solid var(--color-line);
   border-bottom: 1px solid var(--color-line);
 }
 
-/* Subtle blueprint grid backdrop */
+/* Subtle blueprint grid backdrop (masked glow at top) */
 .bg-blueprint {
   background-image:
     linear-gradient(to right, var(--color-line) 1px, transparent 1px),
@@ -147,6 +149,64 @@ body {
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 30%, transparent 75%);
   -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 30%, transparent 75%);
+}
+
+/* Panel screen-lines: bordered content column with full-bleed hairlines */
+.screen-line {
+  position: relative;
+  border-left: 1px solid var(--color-line);
+  border-right: 1px solid var(--color-line);
+}
+.screen-line::before,
+.screen-line::after {
+  content: "";
+  position: absolute;
+  left: -100vw;
+  width: 200vw;
+  height: 1px;
+  background: var(--color-line);
+}
+.screen-line::before {
+  top: 0;
+}
+.screen-line::after {
+  bottom: 0;
+}
+
+/* Full-bleed single-edge hairlines (granular panel variants) */
+.screen-line-top,
+.screen-line-bottom {
+  position: relative;
+}
+.screen-line-top::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100vw;
+  width: 200vw;
+  height: 1px;
+  background: var(--color-line);
+}
+.screen-line-bottom::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -100vw;
+  width: 200vw;
+  height: 1px;
+  background: var(--color-line);
+}
+
+@keyframes pacman-run {
+  from {
+    transform: translateX(-3rem);
+  }
+  to {
+    transform: translateX(100vw);
+  }
+}
+.pacman-runner {
+  animation: pacman-run 16s linear infinite;
 }
 
 /* Postage stamp perforation (reference technique) */
@@ -158,18 +218,6 @@ body {
   -webkit-mask:
     radial-gradient(circle, transparent 2.6px, black 3.1px) -4px -4px / 8px 8px round,
     linear-gradient(black, black) center / calc(100% - 7px) calc(100% - 7px) no-repeat;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee 36s linear infinite;
-}
-.marquee-mask {
-  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
 
 ::-webkit-scrollbar {

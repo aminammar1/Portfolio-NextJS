@@ -1,41 +1,77 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
+import Image from 'next/image'
 
-const companies = [
-  { initials: 'PX', name: 'Pixelium', url: 'https://github.com/aminammar1/petcare-platform-next-fastify' },
-  { initials: 'OS', name: 'Independent OSS', url: 'https://github.com/aminammar1?tab=repositories' },
-  { initials: 'CP', name: 'Chess Puzzle', url: 'https://chess-puzzle-next.vercel.app/' },
-  { initials: 'HT', name: 'Hanouti.tn', url: 'https://tunisian-shop-next-js.vercel.app' },
-  { initials: 'PP', name: 'PetPulse', url: 'https://petcare-platforme-petpulse.vercel.app' },
-  { initials: 'EB', name: 'ElBoutique', url: 'https://elboutique-store.vercel.app' },
+// Honest version: one real internship + independent work. No fake logos.
+const entries = [
+  {
+    initials: 'PX',
+    logo: '/work/pixelium.svg',
+    name: 'Pixelium',
+    detail: 'Software Engineer Intern · Sousse',
+    url: '#work',
+  },
+  {
+    initials: 'IN',
+    logo: null,
+    name: 'Independent',
+    detail: 'Freelance · Monastir (Remote)',
+    url: 'mailto:ammar.mohamdamine@gmail.com',
+  },
+  {
+    initials: 'OS',
+    logo: null,
+    name: 'Open Source',
+    detail: 'Public repos · GitHub',
+    url: 'https://github.com/aminammar1?tab=repositories',
+  },
 ]
 
-export default function Companies() {
-  const doubled = [...companies, ...companies]
+function EntryLogo({ initials, logo, name }: { initials: string; logo: string | null; name: string }) {
+  const [failed, setFailed] = useState(false)
+  if (logo && !failed) {
+    return (
+      <span className="relative size-9 shrink-0 overflow-hidden rounded-md border border-line bg-card">
+        <Image
+          src={logo}
+          alt={`${name} logo`}
+          fill
+          sizes="36px"
+          className="object-cover"
+          onError={() => setFailed(true)}
+        />
+      </span>
+    )
+  }
   return (
-    <section className="mx-auto max-w-4xl px-4 pt-12">
-      <p className="section-label">Companies I&apos;ve worked with (2)</p>
-      <h2 className="mt-1 text-xl font-semibold tracking-tight">
-        Shipped with an Agile team — and independently, in public.
-      </h2>
-      <div className="marquee-mask mt-6 overflow-hidden rounded-xl border border-line bg-card py-3">
-        <div className="animate-marquee flex w-max gap-2 pr-2">
-          {doubled.map((c, i) => (
-            <a
-              key={`${c.name}-${i}`}
-              href={c.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex shrink-0 items-center gap-2 rounded-lg border border-line bg-card-2 px-3 py-2 text-[12px] font-medium transition-colors hover:border-accent/50 hover:text-accent"
-            >
-              <span className="flex size-5 items-center justify-center rounded bg-accent-soft font-mono text-[10px] font-bold text-accent">
-                {c.initials}
+    <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-accent-soft font-mono text-[12px] font-bold text-accent">
+      {initials}
+    </span>
+  )
+}
+
+export default function Companies() {
+  return (
+    <section className="screen-line mx-auto sm:max-w-lg md:max-w-2xl xl:max-w-3xl scroll-mt-24 px-4 py-6">
+      <div className="grid gap-2 sm:grid-cols-3">
+        {entries.map((e) => (
+          <a
+            key={e.name}
+            href={e.url}
+            target={e.url.startsWith('http') || e.url.startsWith('mailto') ? '_blank' : undefined}
+            rel="noopener noreferrer"
+            className="group flex items-center gap-3 rounded-xl border border-line bg-card px-3 py-3 transition-colors hover:border-accent/50"
+          >
+            <EntryLogo initials={e.initials} logo={e.logo} name={e.name} />
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-semibold group-hover:text-accent">
+                {e.name}
               </span>
-              {c.name}
-            </a>
-          ))}
-        </div>
+              <span className="block truncate text-xs text-muted">{e.detail}</span>
+            </span>
+          </a>
+        ))}
       </div>
     </section>
   )

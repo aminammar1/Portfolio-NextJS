@@ -14,17 +14,25 @@ export default function TechIcon({
   slug,
   label,
   Icon,
+  color,
   className = 'size-3',
 }: {
   slug?: string
   label: string
-  Icon?: React.ComponentType<{ className?: string }>
+  Icon?: React.ComponentType<{ className?: string; style?: React.CSSProperties }>
+  /** Original brand color for local marks (overrides the accent tint). */
+  color?: string
   className?: string
 }) {
   const [failed, setFailed] = useState(false)
 
   if (Icon) {
-    return <Icon className={`${className} shrink-0 text-accent`} />
+    return (
+      <Icon
+        className={`${className} shrink-0${color ? '' : ' text-accent'}`}
+        style={color ? { color } : undefined}
+      />
+    )
   }
 
   if (!slug || failed) {
