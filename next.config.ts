@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
+  images: {
+    // AVIF first: ~30% smaller than WebP for the photos on this site, WebP fallback
+    formats: ["image/avif", "image/webp"],
+  },
 };
 
 export default nextConfig;

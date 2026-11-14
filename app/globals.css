@@ -67,6 +67,86 @@
   }
 }
 
+/* Background wandering squares: a pure-CSS 16s fade loop. Positions are
+   re-rolled imperatively on animationiteration (see Background.tsx) -- the
+   opacity animation itself runs composited, with zero main-thread work. */
+@keyframes bg-square-fade {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.bg-square {
+  position: absolute;
+  background-color: currentColor;
+  animation: bg-square-fade 16s ease-in-out infinite;
+}
+
+/* Rotating subtitle swap (CSS replacement for AnimatePresence mode="wait") */
+@keyframes subtitle-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes subtitle-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+.subtitle-in {
+  animation: subtitle-in 0.3s ease-out both;
+}
+.subtitle-out {
+  animation: subtitle-out 0.3s ease-out both;
+}
+
+/* Mobile menu enter/exit (CSS replacement for AnimatePresence in Navbar) */
+@keyframes menu-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes menu-panel {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.menu-fade-in {
+  animation: menu-fade 0.15s ease-out both;
+}
+.menu-fade-out {
+  animation: menu-fade 0.15s ease-out reverse both;
+}
+.menu-panel-in {
+  animation: menu-panel 0.15s ease-out both;
+}
+.menu-panel-out {
+  animation: menu-panel 0.15s ease-out reverse both;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 4rem;
@@ -207,6 +287,33 @@ body {
 }
 .pacman-runner {
   animation: pacman-run 16s linear infinite;
+}
+
+/* Pac-Man chomp: compositor-only transform keyframes replacing the two
+   infinite framer-motion JS animations this strip used to run. */
+@keyframes pacman-chomp-top {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-30deg);
+  }
+}
+@keyframes pacman-chomp-bottom {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(30deg);
+  }
+}
+.pacman-top {
+  animation: pacman-chomp-top 0.32s ease-in-out infinite;
+}
+.pacman-bottom {
+  animation: pacman-chomp-bottom 0.32s ease-in-out infinite;
 }
 
 /* Postage stamp perforation (reference technique) */

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import pfimage from '@/assets/pfimage.png'
+import pfimage from '@/assets/pfimage.jpg'
 import RotatingSubtitle from '@/components/RotatingSubtitle'
 
 /**

@@ -1,17 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Old_Standard_TT, Poppins } from "next/font/google";
+import { Geist_Mono, Old_Standard_TT, Poppins } from "next/font/google";
 import "./globals.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-poppins",
-  weight: ["300", "400", "500", "600", "700"],
-});
-
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -23,7 +17,7 @@ const geistMono = Geist_Mono({
 const oldStandard = Old_Standard_TT({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400", "700"],
+  weight: ["700"],
 });
 
 export const metadata: Metadata = {
@@ -65,7 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${poppins.variable} ${geist.variable} ${geistMono.variable} ${oldStandard.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${poppins.variable} ${geistMono.variable} ${oldStandard.variable} font-sans antialiased bg-background text-foreground`}
       >
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         {children}

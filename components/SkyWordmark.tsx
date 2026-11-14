@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { useReducedMotion } from 'framer-motion'
+import { usePrefersReducedMotion } from '@/lib/use-reduced-motion'
 
 /**
  * Dot-matrix wordmark spelling "MOHAMED AMINE". Crisp 5x7 dot glyphs on a
@@ -101,7 +101,7 @@ function inkFor(palette: Palette, t: number, brightness: number): string {
 }
 
 export default function SkyWordmark() {
-  const reduceMotion = useReducedMotion() ?? false
+  const reduceMotion = usePrefersReducedMotion()
   const probeRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 

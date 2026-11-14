@@ -1,8 +1,7 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, FileText, X } from 'lucide-react'
 import ThemeToggle from '@/components/ThemeToggle'
 import { cn } from '@/lib/utils'
@@ -45,18 +44,41 @@ function useActiveSection(ids: string[]): string | null {
   return active
 }
 
+/**
+ * Mobile menu with CSS-keyframe enter/exit (a short "closing" phase keeps the
+ * 150ms fade-out the AnimatePresence version had) -- no animation library on
+ * the critical path.
+ */
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const [closing, setClosing] = useState(false)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const active = useActiveSection(['about', 'work', 'projects', 'stack'])
+
+  const close = () => {
+    if (!open || closing) return
+    setClosing(true)
+    closeTimer.current = setTimeout(() => {
+      setOpen(false)
+      setClosing(false)
+    }, 160)
+  }
 
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false)
+      if (e.key === 'Escape') close()
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
-  }, [open ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, closing])
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current)
+    }
+  }, [])
 
   return (
     <>
@@ -110,60 +132,56 @@ export default function Navbar() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {open && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15, ease: 'easeOut' }}
-              onClick={() => setOpen(false)}
-              className="fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80"
-            />
-            <motion.nav
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.15, ease: 'easeOut' }}
-              className="fixed inset-x-4 top-8 z-50 origin-top rounded-3xl bg-white p-8 ring-1 ring-zinc-900/5 sm:left-auto sm:right-4 sm:w-80 dark:bg-zinc-900 dark:ring-zinc-800"
-            >
-              <div className="flex flex-row-reverse items-center justify-between">
-                <button onClick={() => setOpen(false)} aria-label="Close menu" className="-m-1 p-1">
-                  <X className="size-6 text-zinc-500 dark:text-zinc-400" />
-                </button>
-                <h2 className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Navigation</h2>
-              </div>
-              <ul className="mt-6 flex flex-col gap-1">
-                {navLinks.map((l) => (
-                  <li key={l.title}>
-                    <Link
-                      href={l.path}
-                      onClick={() => setOpen(false)}
-                      className={cn(
-                        'block rounded-xl px-3 py-2.5 text-base transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800',
-                        active === l.path.slice(1) ? 'text-accent' : 'text-zinc-800 dark:text-zinc-200'
-                      )}
-                    >
-                      {l.title}
-                    </Link>
-                  </li>
-                ))}
-                <li>
-                  <a
-                    href="/cv_mohamedamineammar_fullstack.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block rounded-xl px-3 py-2.5 text-base text-zinc-800 transition-colors hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
+      {open && (
+        <>
+          <div
+            onClick={close}
+            className={cn(
+              'fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80',
+              closing ? 'menu-fade-out' : 'menu-fade-in'
+            )}
+          />
+          <nav
+            className={cn(
+              'fixed inset-x-4 top-8 z-50 origin-top rounded-3xl bg-white p-8 ring-1 ring-zinc-900/5 sm:left-auto sm:right-4 sm:w-80 dark:bg-zinc-900 dark:ring-zinc-800',
+              closing ? 'menu-panel-out' : 'menu-panel-in'
+            )}
+          >
+            <div className="flex flex-row-reverse items-center justify-between">
+              <button onClick={close} aria-label="Close menu" className="-m-1 p-1">
+                <X className="size-6 text-zinc-500 dark:text-zinc-400" />
+              </button>
+              <h2 className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Navigation</h2>
+            </div>
+            <ul className="mt-6 flex flex-col gap-1">
+              {navLinks.map((l) => (
+                <li key={l.title}>
+                  <Link
+                    href={l.path}
+                    onClick={close}
+                    className={cn(
+                      'block rounded-xl px-3 py-2.5 text-base transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800',
+                      active === l.path.slice(1) ? 'text-accent' : 'text-zinc-800 dark:text-zinc-200'
+                    )}
                   >
-                    Résumé
-                  </a>
+                    {l.title}
+                  </Link>
                 </li>
-              </ul>
-            </motion.nav>
-          </>
-        )}
-      </AnimatePresence>
+              ))}
+              <li>
+                <a
+                  href="/cv_mohamedamineammar_fullstack.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-xl px-3 py-2.5 text-base text-zinc-800 transition-colors hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                >
+                  Résumé
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </>
+      )}
     </>
   )
 }

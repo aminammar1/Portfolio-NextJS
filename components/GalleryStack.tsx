@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
 import {
@@ -220,6 +220,7 @@ function GalleryCardView({ card, index, cycleCard, totalCards, isFlipped, onFlip
                   style={card.objectPosition ? { objectPosition: card.objectPosition } : undefined}
                   width={400}
                   height={400}
+                  sizes="(min-width: 1024px) 294px, calc(100vw - 2rem)"
                 />
               )}
               <CardSheen glare={frontGlare} glareOpacity={glareOpacity} shade={shade} />
@@ -275,6 +276,36 @@ function GalleryCardView({ card, index, cycleCard, totalCards, isFlipped, onFlip
 export default function GalleryStack({ cards: initialCards }: { cards: GalleryCard[] }) {
   const [cards, setCards] = useState<GalleryCard[]>(initialCards)
   const [isTopCardFlipped, setIsTopCardFlipped] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isActive, setIsActive] = useState(true)
+
+  // The stack is fully interactive whenever it is on screen; the auto-swipe
+  // below only runs while the stack is actually visible and the tab is
+  // focused, so scrolling away (or backgrounding the tab) stops all its work.
+  useEffect(() => {
+    const element = containerRef.current
+    if (!element) return
+    let inView = true
+    let tabVisible = !document.hidden
+    const update = () => setIsActive(inView && tabVisible)
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting
+        update()
+      },
+      { rootMargin: '80px' }
+    )
+    observer.observe(element)
+    const onVisibility = () => {
+      tabVisible = !document.hidden
+      update()
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      observer.disconnect()
+      document.removeEventListener('visibilitychange', onVisibility)
+    }
+  }, [])
 
   const cycleCard = (id: number) => {
     setCards((prevCards) => {
@@ -287,15 +318,15 @@ export default function GalleryStack({ cards: initialCards }: { cards: GalleryCa
   }
 
   useEffect(() => {
-    if (isTopCardFlipped) return
+    if (!isActive || isTopCardFlipped) return
     const interval = setInterval(() => {
       if (cards.length > 0) cycleCard(cards[0].id)
     }, AUTO_SWIPE_INTERVAL_MS)
     return () => clearInterval(interval)
-  }, [cards, isTopCardFlipped])
+  }, [cards, isTopCardFlipped, isActive])
 
   return (
-    <div className="relative aspect-square w-full">
+    <div ref={containerRef} className="relative aspect-square w-full">
       <GalleryStamps />
       <AnimatePresence mode="popLayout">
         {cards.slice(0, 3).map((card, index) => (

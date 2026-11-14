@@ -1,18 +1,28 @@
 'use client'
 
+import React, { useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import { Clock, Globe, Mail, MapPin } from 'lucide-react'
 import { FaFacebookF, FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
-import GalleryStack, { type GalleryCard } from '@/components/GalleryStack'
-import { GalleryStampsHint } from '@/components/GalleryStamps'
+import type { GalleryCard } from '@/components/GalleryStack'
 import Contributions from '@/components/Contributions'
 import HelloTitle from '@/components/HelloTitle'
 import { useTunisTime } from '@/components/TunisTime'
+
+// The card stack + stamps are the heaviest interactive pieces on the page
+// (framer-motion springs, drag, portals). Loaded as an async chunk after
+// hydration instead of blocking the first paint -- the server-rendered HTML
+// stays visible until the chunk resolves.
+const GalleryStack = dynamic(() => import('@/components/GalleryStack'))
+const GalleryStampsHint = dynamic(() =>
+  import('@/components/GalleryStamps').then((mod) => mod.GalleryStampsHint)
+)
 
 const cards: GalleryCard[] = [
   {
     id: 1,
     type: 'image',
-    imageUrl: '/gallery/photo-2.png',
+    imageUrl: '/gallery/photo-2.jpg',
     backgroundColor: '#1a1a1a',
     textColor: '#ffffff',
     story: 'Above the old city, Zitouna minaret behind me. Tunisia is where everything I build starts.',
@@ -28,7 +38,7 @@ const cards: GalleryCard[] = [
   {
     id: 3,
     type: 'image',
-    imageUrl: '/gallery/photo-1.png',
+    imageUrl: '/gallery/photo-1.jpg',
     backgroundColor: '#2d2d2d',
     textColor: '#ffffff',
     story: 'Night mode, always. Most of my commits happen after midnight.',
@@ -36,7 +46,7 @@ const cards: GalleryCard[] = [
   {
     id: 4,
     type: 'image',
-    imageUrl: '/gallery/photo-3.png',
+    imageUrl: '/gallery/photo-3.jpg',
     backgroundColor: '#5c2a1a',
     textColor: '#ffffff',
     story: 'Itachi on the shirt, Naruto on the shelf. The anime influence is permanent.',
@@ -66,6 +76,20 @@ function IconBox({ children }: { children: React.ReactNode }) {
  */
 export default function PhotoGallery() {
   const { label: tunisTime } = useTunisTime()
+
+  // Warm the async gallery chunk once the browser is idle, so it is ready
+  // before the user scrolls to it without ever competing with first paint.
+  useEffect(() => {
+    const warm = () => {
+      void import('@/components/GalleryStack')
+    }
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(warm, { timeout: 3000 })
+      return () => window.cancelIdleCallback(id)
+    }
+    const timer = setTimeout(warm, 1200)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <section id="about" className="screen-line mx-auto sm:max-w-lg md:max-w-2xl xl:max-w-3xl scroll-mt-24">
