@@ -58,19 +58,24 @@ export default function Background() {
       </svg>
 
       {hasSquares && (
-        <div
-          ref={squaresRef}
-          className="absolute inset-0 -z-10 [mask-image:radial-gradient(110%_120%_at_top_right,white,transparent)]"
-          style={{ maskImage: SQUARES_MASK, WebkitMaskImage: SQUARES_MASK }}
-          aria-hidden="true"
-        >
-          {squares.map(({ pos: [x, y], id, delay }) => (
-            <div
-              key={id}
-              className="bg-square size-[99px] text-gray-900 dark:text-white"
-              style={{ left: x * 100 + 1, top: y * 100 + 1, animationDelay: `${delay}s` }}
-            />
-          ))}
+        <div className="absolute inset-0 -z-10 [mask-image:radial-gradient(110%_120%_at_top_right,white,transparent)]">
+          {/* Inline style wins over the Tailwind mask class on the same
+              element, so the two masks must live on two nested layers -- as
+              in the original component. */}
+          <div
+            ref={squaresRef}
+            className="absolute inset-0"
+            style={{ maskImage: SQUARES_MASK, WebkitMaskImage: SQUARES_MASK }}
+            aria-hidden="true"
+          >
+            {squares.map(({ pos: [x, y], id, delay }) => (
+              <div
+                key={id}
+                className="bg-square size-[99px] text-gray-900 dark:text-white"
+                style={{ left: x * 100 + 1, top: y * 100 + 1, animationDelay: `${delay}s` }}
+              />
+            ))}
+          </div>
         </div>
       )}
 

@@ -81,10 +81,13 @@
     opacity: 0;
   }
 }
+/* `both` fills backwards during the staggered animation-delay window --
+   without it each square renders at static opacity 1 (bright white) until
+   its own delay elapses. Matches the old framer `initial={{ opacity: 0 }}`. */
 .bg-square {
   position: absolute;
   background-color: currentColor;
-  animation: bg-square-fade 16s ease-in-out infinite;
+  animation: bg-square-fade 16s ease-in-out infinite both;
 }
 
 /* Rotating subtitle swap (CSS replacement for AnimatePresence mode="wait") */
