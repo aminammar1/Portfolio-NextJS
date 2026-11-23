@@ -2,42 +2,65 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * KI THEME -- anime battle-shonen palette.
+ *   ink    : deep navy line-art ink (outlines, hard shadows)
+ *   orange : gi orange, the hero colour (decoration, beams, auras)
+ *   accent : text-safe orange (links, active states) -- 4.8:1 on sky
+ *   blue   : ki-blast blue (secondary energy)
+ *   gold   : power-up aura gold
+ * Light = "daytime sky", dark = "night battle".
+ */
 :root {
-  --bg: #f6f6f3;
-  --background: #f6f6f3;
-  --foreground: #191a1c;
+  --ink: #0a1033;
+  --orange: #ff7a1a;
+  --blue: #2f6bff;
+  --gold: #ffc21a;
+  --bg: #f2f7ff;
+  --background: #f2f7ff;
+  --foreground: #0a1033;
   --card: #ffffff;
-  --card-2: #efefea;
-  --text: #191a1c;
-  --muted: #6b6d74;
-  --line: rgba(25, 26, 28, 0.1);
-  --line-strong: #d9d9d4;
-  --accent: #16a34a;
-  --accent-soft: rgba(22, 163, 74, 0.1);
-  --heat-0: #e8e8e4;
-  --heat-1: #c7ecd0;
-  --heat-2: #93dfa6;
-  --heat-3: #5ecb7e;
-  --heat-4: #16a34a;
+  --card-2: #e7effc;
+  --text: #0a1033;
+  --muted: #5b6488;
+  --line: rgba(10, 16, 51, 0.12);
+  --line-strong: rgba(10, 16, 51, 0.28);
+  --accent: #c2410c;
+  --accent-soft: rgba(255, 122, 26, 0.14);
+  --panel-shadow: 4px 4px 0 var(--ink);
+  --panel-shadow-hover: 6px 6px 0 var(--orange);
+  --panel-border: var(--ink);
+  --heat-0: #e1e8f6;
+  --heat-1: #ffe0b8;
+  --heat-2: #ffb766;
+  --heat-3: #ff8a24;
+  --heat-4: #d9480f;
 }
 
 .dark {
-  --bg: #080a0c;
-  --background: #080a0c;
-  --foreground: #e8eaed;
-  --card: #101316;
-  --card-2: #14181c;
-  --text: #e8eaed;
-  --muted: #8b9096;
-  --line: rgba(232, 234, 237, 0.09);
-  --line-strong: rgba(232, 234, 237, 0.2);
-  --accent: #22c55e;
-  --accent-soft: rgba(34, 197, 94, 0.12);
-  --heat-0: #161b22;
-  --heat-1: #0e4429;
-  --heat-2: #006d32;
-  --heat-3: #26a641;
-  --heat-4: #39d353;
+  --ink: #02040f;
+  --orange: #ff8a1f;
+  --blue: #4d82ff;
+  --gold: #ffcc33;
+  --bg: #070b24;
+  --background: #070b24;
+  --foreground: #eef1ff;
+  --card: #0d1336;
+  --card-2: #131a44;
+  --text: #eef1ff;
+  --muted: #8d95bd;
+  --line: rgba(238, 241, 255, 0.1);
+  --line-strong: rgba(238, 241, 255, 0.24);
+  --accent: #ff8a1f;
+  --accent-soft: rgba(255, 138, 31, 0.14);
+  --panel-shadow: 0 0 0 1px rgba(255, 138, 31, 0.08), 0 10px 30px -12px rgba(0, 0, 0, 0.7);
+  --panel-shadow-hover: 0 0 0 1px rgba(255, 138, 31, 0.55), 0 0 28px -4px rgba(255, 138, 31, 0.55);
+  --panel-border: rgba(238, 241, 255, 0.16);
+  --heat-0: #141a3d;
+  --heat-1: #4a2a12;
+  --heat-2: #8a4510;
+  --heat-3: #e06a0a;
+  --heat-4: #ffb020;
 }
 
 @theme inline {
@@ -49,10 +72,14 @@
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-ink: var(--ink);
+  --color-orange: var(--orange);
+  --color-ki: var(--blue);
+  --color-gold: var(--gold);
 
-  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
-  --font-display: var(--font-display), Georgia, serif;
+  --font-display: var(--font-anime), "Hiragino Kaku Gothic StdN", "Yu Gothic", "Noto Sans CJK JP", Impact, sans-serif;
 
   --animate-shine: shine 4s ease-in-out infinite;
 }
@@ -67,27 +94,354 @@
   }
 }
 
-/* Background wandering squares: a pure-CSS 16s fade loop. Positions are
-   re-rolled imperatively on animationiteration (see Background.tsx) -- the
-   opacity animation itself runs composited, with zero main-thread work. */
-@keyframes bg-square-fade {
-  0% {
-    opacity: 0;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
+}
+
+body {
+  color: var(--color-foreground);
+  background: var(--color-background);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--orange);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Anime title type                                                    */
+/* ------------------------------------------------------------------ */
+
+/* Gradient-filled letters (gold top -> gi orange bottom), the classic
+   shonen logo fill. The outline + drop comes from .anime-outline on the
+   parent so neighbouring letters never paint over each other. */
+.anime-fill {
+  background-image: linear-gradient(180deg, #fff27a 0%, #ffc21a 38%, #ff8a1f 68%, #f0520a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.anime-outline {
+  filter: drop-shadow(1.5px 0 0 var(--ink)) drop-shadow(-1.5px 0 0 var(--ink))
+    drop-shadow(0 1.5px 0 var(--ink)) drop-shadow(0 -1.5px 0 var(--ink))
+    drop-shadow(4px 5px 0 var(--ink));
+}
+.dark .anime-outline {
+  filter: drop-shadow(1.5px 0 0 var(--ink)) drop-shadow(-1.5px 0 0 var(--ink))
+    drop-shadow(0 1.5px 0 var(--ink)) drop-shadow(0 -1.5px 0 var(--ink))
+    drop-shadow(4px 5px 0 var(--ink)) drop-shadow(0 0 22px rgba(255, 138, 31, 0.45));
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero: aura, focus lines, power-up                                   */
+/* ------------------------------------------------------------------ */
+
+/* Manga focus lines (shuchusen): three pre-drawn SVG variants swapped with
+   steps() so the lines "jitter" like a hand-drawn panel. Opacity only. */
+@keyframes focus-jitter {
+  0%,
+  33.32% {
+    opacity: 1;
   }
-  50% {
-    opacity: 0.1;
-  }
+  33.33%,
   100% {
     opacity: 0;
   }
 }
-/* `both` fills backwards during the staggered animation-delay window --
-   without it each square renders at static opacity 1 (bright white) until
-   its own delay elapses. Matches the old framer `initial={{ opacity: 0 }}`. */
-.bg-square {
+.focus-lines > svg {
   position: absolute;
-  background-color: currentColor;
-  animation: bg-square-fade 16s ease-in-out infinite both;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: focus-jitter 0.42s steps(1, end) infinite;
+}
+.focus-lines > svg:nth-child(2) {
+  animation-delay: -0.14s;
+}
+.focus-lines > svg:nth-child(3) {
+  animation-delay: -0.28s;
+}
+
+/* Aura flame tongues: each one is rotated into place by --a, then rises
+   and stretches outward on a loop. Transform + opacity only. */
+@keyframes flame-rise {
+  0% {
+    transform: rotate(var(--a)) translateY(-26%) scale(0.7, 0.5);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: rotate(var(--a)) translateY(-58%) scale(0.35, 1.15);
+    opacity: 0;
+  }
+}
+.aura-flame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20%;
+  height: 50%;
+  margin-left: -10%;
+  margin-top: -25%;
+  transform-origin: 50% 100%;
+  border-radius: 50% 50% 45% 45% / 80% 80% 20% 20%;
+  background: radial-gradient(ellipse 50% 85% at 50% 90%, #fffbe0 0%, var(--gold) 40%, rgba(255, 138, 31, 0.55) 66%, transparent 78%);
+  mix-blend-mode: screen;
+  animation: flame-rise 1.15s cubic-bezier(0.3, 0.6, 0.4, 1) infinite;
+}
+:root:not(.dark) .aura-flame {
+  mix-blend-mode: normal;
+  background: radial-gradient(ellipse 50% 85% at 50% 90%, #fff6c0 0%, var(--gold) 40%, rgba(255, 122, 26, 0.6) 66%, transparent 78%);
+}
+
+@keyframes aura-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+.aura-glow {
+  position: absolute;
+  inset: -18%;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 210, 63, 0.75) 30%, rgba(255, 122, 26, 0.35) 52%, transparent 70%);
+  animation: aura-pulse 0.9s ease-in-out infinite;
+}
+
+/* Lightning arcs flicker around the avatar while charging. */
+@keyframes bolt-flicker {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  8%,
+  14% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.2;
+  }
+  52%,
+  56% {
+    opacity: 0.9;
+  }
+}
+.aura-bolt {
+  animation: bolt-flicker 0.9s steps(1, end) infinite;
+}
+
+/* Rising ki sparks */
+@keyframes spark-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--dx, 0px), -120px, 0) scale(0.3);
+    opacity: 0;
+  }
+}
+.ki-spark {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: #fff6c8;
+  box-shadow: 0 0 8px 2px var(--gold);
+  animation: spark-rise 1.6s ease-out infinite;
+}
+
+/* Charging = everything faster and hotter. */
+.is-charging .aura-flame {
+  animation-duration: 0.5s;
+}
+.is-charging .aura-glow {
+  animation-duration: 0.28s;
+}
+.is-charging .ki-spark {
+  animation-duration: 0.7s;
+}
+
+@keyframes hero-shake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    transform: translate3d(-2px, 1px, 0);
+  }
+  40% {
+    transform: translate3d(2px, -1px, 0);
+  }
+  60% {
+    transform: translate3d(-1px, -2px, 0);
+  }
+  80% {
+    transform: translate3d(1px, 2px, 0);
+  }
+}
+.is-charging .shake-on-charge {
+  animation: hero-shake 0.12s linear infinite;
+}
+
+/* Scouter readout: slanted HUD glass */
+.scouter {
+  clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 3px),
+    linear-gradient(100deg, rgba(10, 16, 51, 0.92), rgba(23, 33, 92, 0.88));
+}
+.dark .scouter {
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 3px),
+    linear-gradient(100deg, rgba(255, 138, 31, 0.16), rgba(77, 130, 255, 0.14));
+  box-shadow: inset 0 0 0 1px rgba(255, 138, 31, 0.35);
+}
+@keyframes scouter-scan {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(400%);
+  }
+}
+.scouter-scan {
+  animation: scouter-scan 2.4s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* Page chrome                                                          */
+/* ------------------------------------------------------------------ */
+
+/* Manga screentone */
+.halftone {
+  background-image: radial-gradient(circle at center, var(--line-strong) 1.1px, transparent 1.6px);
+  background-size: 9px 9px;
+}
+
+/* Speed-lines divider: a 200%-wide strip of streaks slides left forever.
+   One transform animation on a small band = compositor only. */
+@keyframes speed-slide {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.speed-strip {
+  width: 200%;
+  animation: speed-slide 1.6s linear infinite;
+  background-image:
+    repeating-linear-gradient(90deg, var(--ink) 0 90px, transparent 90px 130px, var(--ink) 130px 160px, transparent 160px 260px),
+    repeating-linear-gradient(90deg, transparent 0 40px, var(--orange) 40px 140px, transparent 140px 330px),
+    repeating-linear-gradient(90deg, var(--ink) 0 220px, transparent 220px 270px, var(--ink) 270px 300px, transparent 300px 470px);
+  background-size: 100% 2px, 100% 3px, 100% 2px;
+  background-position: 0 30%, 0 55%, 0 80%;
+  background-repeat: repeat-x;
+  opacity: 0.85;
+}
+.dark .speed-strip {
+  background-image:
+    repeating-linear-gradient(90deg, rgba(238, 241, 255, 0.5) 0 90px, transparent 90px 130px, rgba(238, 241, 255, 0.35) 130px 160px, transparent 160px 260px),
+    repeating-linear-gradient(90deg, transparent 0 40px, var(--orange) 40px 140px, transparent 140px 330px),
+    repeating-linear-gradient(90deg, rgba(77, 130, 255, 0.7) 0 220px, transparent 220px 270px, rgba(77, 130, 255, 0.5) 270px 300px, transparent 300px 470px);
+}
+
+/* Floating ki particles in the page background */
+@keyframes ki-float {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: var(--o, 0.7);
+  }
+  85% {
+    opacity: var(--o, 0.7);
+  }
+  100% {
+    transform: translate3d(var(--dx, 20px), -110vh, 0);
+    opacity: 0;
+  }
+}
+.ki-particle {
+  position: absolute;
+  bottom: -20px;
+  border-radius: 9999px;
+  animation: ki-float var(--d, 22s) linear infinite both;
+}
+
+/* Click impact burst (see ImpactClicks.tsx) */
+@keyframes impact-ray {
+  0% {
+    transform: rotate(var(--r)) translateY(-6px) scaleY(0.2);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--r)) translateY(-30px) scaleY(1);
+    opacity: 0;
+  }
+}
+@keyframes impact-ring {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+.impact {
+  position: fixed;
+  z-index: 100;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.impact > i {
+  position: absolute;
+  left: -1.5px;
+  top: -14px;
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--orange);
+  transform-origin: 50% 100%;
+  animation: impact-ray 0.42s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+.impact > i:nth-child(even) {
+  background: var(--gold);
+  height: 9px;
+  top: -9px;
+}
+.impact > b {
+  position: absolute;
+  left: -16px;
+  top: -16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: 2px solid var(--blue);
+  animation: impact-ring 0.4s ease-out forwards;
 }
 
 /* Rotating subtitle swap (CSS replacement for AnimatePresence mode="wait") */
@@ -130,11 +484,11 @@
 @keyframes menu-panel {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.95) skewX(-4deg);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) skewX(0);
   }
 }
 .menu-fade-in {
@@ -144,46 +498,21 @@
   animation: menu-fade 0.15s ease-out reverse both;
 }
 .menu-panel-in {
-  animation: menu-panel 0.15s ease-out both;
+  animation: menu-panel 0.18s ease-out both;
 }
 .menu-panel-out {
   animation: menu-panel 0.15s ease-out reverse both;
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 4rem;
-}
+/* ------------------------------------------------------------------ */
+/* Components                                                           */
+/* ------------------------------------------------------------------ */
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-body {
-  color: var(--color-foreground);
-  background: var(--color-background);
-  overflow-x: hidden;
-}
-
-::selection {
-  background: var(--color-accent);
-  color: #080a0c;
-}
-
+@layer components {
 .section-label {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--color-muted);
 }
 
@@ -191,8 +520,8 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  border: 1px solid var(--color-line);
-  border-radius: 0.35rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
   padding: 0.125rem 0.5rem;
   font-family: var(--font-mono);
   font-size: 10px;
@@ -202,36 +531,74 @@ body {
   white-space: nowrap;
 }
 
+/* Manga panel: inked border + hard drop shadow; lifts and turns orange
+   on hover (glows in the dark theme). */
+.manga-panel {
+  border: 2px solid var(--panel-border);
+  border-radius: 6px;
+  background: var(--color-card-2);
+  box-shadow: var(--panel-shadow);
+  transition:
+    transform 0.18s cubic-bezier(0.3, 1.6, 0.5, 1),
+    box-shadow 0.18s ease;
+}
+.group:hover .manga-panel,
+.group:focus-visible .manga-panel,
+a.manga-panel:hover,
+a.manga-panel:focus-visible {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--panel-shadow-hover);
+}
+
+/* Inked button with a press-down */
+.ink-button {
+  border: 2px solid var(--panel-border);
+  border-radius: 4px;
+  background: var(--color-card);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-weight: 700;
+  color: var(--color-foreground);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease;
+}
+.dark .ink-button {
+  box-shadow: 0 0 0 1px rgba(255, 138, 31, 0.15);
+}
+.ink-button:hover {
+  background: var(--accent-soft);
+}
+.ink-button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+/* List rows: a ki bar charges in from the left on hover */
 .row-hover {
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+.row-hover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--gold), var(--orange));
+  box-shadow: 0 0 10px var(--orange);
+  transform: scaleY(0);
+  transition: transform 0.2s cubic-bezier(0.3, 1.6, 0.5, 1);
 }
 .row-hover:hover {
-  background: var(--color-card-2);
+  background: var(--accent-soft);
 }
-
-/* Diagonal hatched divider strip (reference signature) -- dense 1px stripes
-   on an 8px diagonal tile across the full band, edged with hairlines */
-.hatch {
-  background-image: repeating-linear-gradient(
-    315deg,
-    var(--line-strong) 0,
-    var(--line-strong) 1px,
-    transparent 0,
-    transparent 50%
-  );
-  background-size: 8px 8px;
-  border-top: 1px solid var(--color-line);
-  border-bottom: 1px solid var(--color-line);
+.row-hover:hover::before,
+.row-hover:focus-visible::before {
+  transform: scaleY(1);
 }
-
-/* Subtle blueprint grid backdrop (masked glow at top) */
-.bg-blueprint {
-  background-image:
-    linear-gradient(to right, var(--color-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--color-line) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 30%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 30%, transparent 75%);
 }
 
 /* Panel screen-lines: bordered content column with full-bleed hairlines */
@@ -256,7 +623,6 @@ body {
   bottom: 0;
 }
 
-/* Full-bleed single-edge hairlines (granular panel variants) */
 .screen-line-top,
 .screen-line-bottom {
   position: relative;
@@ -291,9 +657,6 @@ body {
 .pacman-runner {
   animation: pacman-run 16s linear infinite;
 }
-
-/* Pac-Man chomp: compositor-only transform keyframes replacing the two
-   infinite framer-motion JS animations this strip used to run. */
 @keyframes pacman-chomp-top {
   0%,
   100% {
@@ -338,9 +701,26 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-line);
+  background: linear-gradient(180deg, var(--gold), var(--orange));
   border-radius: 8px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-muted);
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .ki-particle,
+  .ki-spark,
+  .aura-flame,
+  .speed-strip {
+    animation: none !important;
+    opacity: 0 !important;
+  }
 }

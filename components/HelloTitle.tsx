@@ -21,7 +21,7 @@ export default function HelloTitle() {
   const greeting = useSyncExternalStore(subscribe, getGreeting, getGreeting)
 
   return (
-    <h2 className="text-2xl font-bold tracking-tight" suppressHydrationWarning>
+    <h2 className="font-display text-2xl" suppressHydrationWarning>
       {greeting}
     </h2>
   )

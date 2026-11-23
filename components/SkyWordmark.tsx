@@ -5,7 +5,7 @@ import { usePrefersReducedMotion } from '@/lib/use-reduced-motion'
 
 /**
  * Dot-matrix wordmark spelling "MOHAMED AMINE". Crisp 5x7 dot glyphs on a
- * canvas, tinted by the brand accent token (hue-shifted toward teal across
+ * canvas, tinted by the brand accent token (hue-shifted toward gold across
  * the name), with a gentle brightness wave. Static under reduced motion.
  */
 
@@ -90,11 +90,11 @@ function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
   return [h * 360, s * 100, l * 100]
 }
 
-/** Accent hue shifted toward teal as we move across the name. */
+/** Accent hue shifted toward gold as we move across the name. */
 function inkFor(palette: Palette, t: number, brightness: number): string {
   const [r, g, b] = parseHexOrRgba(palette.accent)
   const [h, s, l] = rgbToHsl(r, g, b)
-  const hue = h + t * 55 // green -> teal across the wordmark
+  const hue = h + t * 24 // gi orange -> aura gold across the wordmark
   const sat = Math.min(85, Math.max(45, s))
   const light = (l * 0.55 + (palette.dark ? 26 : 30)) * (0.55 + 0.45 * brightness)
   return `hsl(${hue.toFixed(1)} ${sat.toFixed(1)}% ${light.toFixed(1)}%)`
@@ -207,7 +207,7 @@ export default function SkyWordmark() {
           ref={canvasRef}
           className="block w-full select-none"
           role="img"
-          aria-label="MOHAMED AMINE, drawn as a dot-matrix wordmark in brand green"
+          aria-label="MOHAMED AMINE, drawn as a dot-matrix wordmark in brand orange"
         />
       </div>
     </div>

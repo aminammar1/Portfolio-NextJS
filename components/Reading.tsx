@@ -47,9 +47,9 @@ function BookCard({ book }: { book: Book }) {
         />
         <div
           className={cn(
-            'relative origin-left overflow-hidden rounded-sm border border-line bg-card-2 shadow-[0_1px_2px_rgba(0,0,0,0.15)] transition-transform duration-500 ease-out',
+            'relative origin-left overflow-hidden rounded-sm border-2 border-ink bg-card-2 shadow-[0_1px_2px_rgba(0,0,0,0.15)] transition-[transform,box-shadow] duration-500 ease-out dark:border-white/15',
             "after:pointer-events-none after:absolute after:inset-0 after:bg-[linear-gradient(90deg,rgba(0,0,0,0.118)_0.65%,rgba(255,255,255,0.2)_1.53%,rgba(255,255,255,0.1)_2.38%,rgba(0,0,0,0.05)_3.26%,rgba(255,255,255,0.14)_5.68%,rgba(244,244,244,0)_6.96%)] after:content-['']",
-            'group-hover:shadow-[4px_4px_10px_rgba(0,0,0,0.2)] group-hover:[transform:rotateY(-25deg)]'
+            'group-hover:shadow-[6px_6px_0_var(--orange)] group-hover:[transform:rotateY(-25deg)] dark:group-hover:shadow-[0_0_26px_-2px_rgba(255,138,31,0.6)]'
           )}
         >
           {book.cover ? (
@@ -70,7 +70,7 @@ function BookCard({ book }: { book: Book }) {
           )}
         </div>
       </div>
-      <span className="line-clamp-1 text-sm font-medium">{book.title}</span>
+      <span className="mt-1 line-clamp-1 text-sm font-bold">{book.title}</span>
       <span className="-mt-1 truncate font-mono text-[11px] text-muted">{book.author}</span>
     </a>
   )

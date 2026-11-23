@@ -1,4 +1,5 @@
 import React from 'react'
+import KiTitle from '@/components/KiTitle'
 
 type Direct = {
   href: string
@@ -20,15 +21,8 @@ export default function SectionHeading({
   return (
     <div className="mb-6 flex items-center justify-between">
       <div>
-        <h2 className="mb-2 flex items-center gap-1.5 text-lg font-semibold">
-          {title}
-          {count !== undefined && (
-            <sup className="ml-2.5 text-xs font-medium tracking-normal text-muted">
-              ({count})
-            </sup>
-          )}
-        </h2>
-        {description && <p className="text-sm text-muted">{description}</p>}
+        <KiTitle title={title} count={count} size="md" />
+        {description && <p className="mt-2.5 text-sm text-muted">{description}</p>}
       </div>
       {direct && (
         <a

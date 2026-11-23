@@ -85,7 +85,7 @@ export default function Navbar() {
       <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex flex-col px-4 pt-6">
         <div className="flex items-center justify-end">
           <nav className="pointer-events-auto hidden md:block">
-            <ul className="flex rounded-full bg-white/50 px-2 py-0.5 font-medium text-zinc-800 shadow-lg shadow-zinc-900/15 ring-1 ring-zinc-900/5 backdrop-blur md:px-3 dark:bg-zinc-900/70 dark:text-zinc-200 dark:shadow-zinc-800/5 dark:ring-white/10">
+            <ul className="flex rounded-md px-2 py-0.5 font-bold text-foreground md:px-3 border-2 border-ink bg-card/90 shadow-[3px_3px_0_var(--ink)] backdrop-blur dark:border-white/15 dark:bg-card/80 dark:shadow-[0_0_22px_-6px_rgba(255,138,31,0.55)]">
               {navLinks.map((l) => {
                 const isActive = active === l.path.slice(1)
                 return (
@@ -99,7 +99,7 @@ export default function Navbar() {
                     >
                       {l.title}
                       {isActive && (
-                        <span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-transparent via-accent to-transparent" />
+                        <span className="absolute inset-x-1.5 bottom-0.5 h-[3px] -skew-x-[18deg] rounded-[1px] bg-gradient-to-r from-gold to-orange shadow-[0_0_8px_var(--orange)]" />
                       )}
                     </Link>
                   </li>
@@ -111,7 +111,7 @@ export default function Navbar() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Résumé"
-                  className="rounded-full p-1.5 transition-colors hover:text-accent"
+                  className="rounded-md p-1.5 transition-colors hover:text-accent"
                 >
                   <FileText className="size-4" />
                 </a>
@@ -123,10 +123,10 @@ export default function Navbar() {
           <div className="pointer-events-auto md:hidden">
             <button
               onClick={() => setOpen(true)}
-              className="group flex items-center rounded-full bg-white/50 px-4 py-2 text-sm font-medium text-zinc-950 shadow-lg shadow-zinc-900/15 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-900/70 dark:text-zinc-200 dark:shadow-zinc-800/5 dark:ring-white/10"
+              className="group flex items-center rounded-md px-4 py-2 text-sm font-bold text-foreground border-2 border-ink bg-card/90 shadow-[3px_3px_0_var(--ink)] backdrop-blur dark:border-white/15 dark:bg-card/80 dark:shadow-[0_0_22px_-6px_rgba(255,138,31,0.55)]"
             >
               Menu
-              <ChevronDown className="ml-3 size-3 text-zinc-500 group-hover:text-zinc-700 dark:group-hover:text-zinc-400" />
+              <ChevronDown className="ml-3 size-3 text-muted group-hover:text-accent" />
             </button>
           </div>
         </div>
@@ -137,21 +137,21 @@ export default function Navbar() {
           <div
             onClick={close}
             className={cn(
-              'fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80',
+              'fixed inset-0 z-50 bg-ink/40 backdrop-blur-sm dark:bg-black/80',
               closing ? 'menu-fade-out' : 'menu-fade-in'
             )}
           />
           <nav
             className={cn(
-              'fixed inset-x-4 top-8 z-50 origin-top rounded-3xl bg-white p-8 ring-1 ring-zinc-900/5 sm:left-auto sm:right-4 sm:w-80 dark:bg-zinc-900 dark:ring-zinc-800',
+              'fixed inset-x-4 top-8 z-50 origin-top rounded-lg border-2 border-ink bg-card p-8 shadow-[5px_5px_0_var(--orange)] sm:left-auto sm:right-4 sm:w-80 dark:border-white/15',
               closing ? 'menu-panel-out' : 'menu-panel-in'
             )}
           >
             <div className="flex flex-row-reverse items-center justify-between">
               <button onClick={close} aria-label="Close menu" className="-m-1 p-1">
-                <X className="size-6 text-zinc-500 dark:text-zinc-400" />
+                <X className="size-6 text-muted" />
               </button>
-              <h2 className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Navigation</h2>
+              <h2 className="font-display text-sm text-muted">Navigation</h2>
             </div>
             <ul className="mt-6 flex flex-col gap-1">
               {navLinks.map((l) => (
@@ -160,8 +160,8 @@ export default function Navbar() {
                     href={l.path}
                     onClick={close}
                     className={cn(
-                      'block rounded-xl px-3 py-2.5 text-base transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800',
-                      active === l.path.slice(1) ? 'text-accent' : 'text-zinc-800 dark:text-zinc-200'
+                      'row-hover block rounded-md px-3 py-2.5 font-display text-lg',
+                      active === l.path.slice(1) ? 'text-accent' : 'text-foreground'
                     )}
                   >
                     {l.title}
@@ -173,7 +173,7 @@ export default function Navbar() {
                   href="/cv_mohamedamineammar_fullstack.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block rounded-xl px-3 py-2.5 text-base text-zinc-800 transition-colors hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                  className="row-hover block rounded-md px-3 py-2.5 font-display text-lg text-foreground"
                 >
                   Résumé
                 </a>

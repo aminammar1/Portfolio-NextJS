@@ -44,14 +44,14 @@ function CertificateCard({ certificate }: { certificate: Certificate }) {
       rel="noopener noreferrer"
       title={certificate.title}
       aria-label={`${certificate.title} -- ${certificate.issuer}`}
-      className={`group block overflow-hidden rounded-xl border border-line bg-card transition-colors hover:border-accent/50 ${
+      className={`manga-panel group block overflow-hidden ${
         certificate.wide ? 'sm:col-span-2' : ''
       }`}
     >
       {failed ? (
         <div className={`flex w-full flex-col items-center justify-center gap-2 bg-card-2 p-4 text-center ${aspect}`}>
           <Award className="size-6 text-muted/60" aria-hidden />
-          <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
+          <p className="font-mono text-[10px] text-muted">
             add asset · {certificate.image}
           </p>
         </div>
@@ -62,7 +62,7 @@ function CertificateCard({ certificate }: { certificate: Certificate }) {
             alt={`${certificate.title} -- ${certificate.issuer}`}
             fill
             sizes={certificate.wide ? '(min-width: 640px) 100vw, 100vw' : '(min-width: 640px) 50vw, 100vw'}
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
             onError={() => setFailed(true)}
           />
         </div>

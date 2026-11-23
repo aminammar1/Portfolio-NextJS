@@ -71,16 +71,16 @@ export default function Anime() {
             rel="noopener noreferrer"
             className="group flex flex-col gap-2"
           >
-            <div className="relative aspect-square overflow-hidden rounded-lg border border-line bg-card-2">
+            <div className="manga-panel relative aspect-square overflow-hidden">
               <Image
                 src={s.image}
                 alt={s.name}
                 fill
                 sizes="(max-width: 640px) 50vw, 25vw"
-                className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                className="object-cover object-top transition-transform duration-300 group-hover:scale-110"
               />
             </div>
-            <span className="line-clamp-1 text-sm font-medium">{s.name}</span>
+            <span className="mt-1 line-clamp-1 text-sm font-bold">{s.name}</span>
             <span className="-mt-1 truncate font-mono text-[11px] text-muted">{s.note}</span>
           </a>
         ))}

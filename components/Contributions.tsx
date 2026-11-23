@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-
-type Day = { date: string; count: number }
+import { loadContributions, type ContributionDay as Day } from '@/lib/github-contributions'
 
 function levelFor(count: number): number {
   if (count === 0) return 0
@@ -18,14 +17,11 @@ export default function Contributions() {
 
   useEffect(() => {
     let cancelled = false
-    fetch('https://github-contributions-api.jogruber.de/v4/aminammar1?y=last')
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((data: { contributions: Day[] }) => {
-        if (cancelled || !data.contributions) return
-        setDays(data.contributions.slice(-364))
-        setTotal(data.contributions.slice(-364).reduce((s, d) => s + d.count, 0))
-      })
-      .catch(() => {})
+    loadContributions().then((year) => {
+      if (cancelled || !year) return
+      setDays(year.days)
+      setTotal(year.total)
+    })
     return () => {
       cancelled = true
     }
@@ -37,7 +33,7 @@ export default function Contributions() {
         href="https://github.com/aminammar1"
         target="_blank"
         rel="noopener noreferrer"
-        className="flex h-24 items-center justify-center rounded-xl border border-line bg-card text-[12px] text-muted underline-offset-4 hover:text-foreground hover:underline"
+        className="manga-panel flex h-24 items-center justify-center bg-card text-[12px] text-muted underline-offset-4 hover:text-foreground hover:underline"
       >
         view my GitHub activity →
       </a>
@@ -63,7 +59,7 @@ export default function Contributions() {
   }
 
   return (
-    <div className="rounded-xl border border-line bg-card p-4">
+    <div className="manga-panel bg-card p-4">
       <div className="mt-1 overflow-x-auto">
         <div className="relative w-max">
           <div className="relative mb-1 h-3" style={{ width: weekCount * 13 - 3 }}>

@@ -62,7 +62,7 @@ const socials = [
 
 function IconBox({ children }: { children: React.ReactNode }) {
   return (
-    <span className="flex size-6 shrink-0 items-center justify-center rounded-md border border-line bg-card text-muted">
+    <span className="flex size-6 shrink-0 items-center justify-center rounded-[4px] border-2 border-ink bg-gold/90 text-ink dark:border-gold/40 dark:bg-gold/10 dark:text-gold">
       {children}
     </span>
   )
@@ -114,27 +114,27 @@ export default function PhotoGallery() {
             freelance work and an internship at Pixelium, then kept shipping. Chess engines
             on AWS, Go APIs, a C++ desktop assistant, open source tools. My rule is
             simple:{' '}
-            <span className="font-medium text-accent">
+            <span className="bg-[linear-gradient(transparent_58%,rgba(255,194,26,0.55)_58%)] px-0.5 font-bold text-foreground dark:bg-[linear-gradient(transparent_58%,rgba(255,138,31,0.35)_58%)]">
               I don&apos;t build features, I build systems.
             </span>{' '}
             View my{' '}
             <a
               href="#work"
-              className="font-semibold underline decoration-accent/60 decoration-2 underline-offset-4 hover:text-accent"
+              className="font-display text-[0.95em] underline decoration-orange decoration-[3px] underline-offset-4 transition-colors hover:text-accent"
             >
               WORK
             </a>
             , explore my{' '}
             <a
               href="#projects"
-              className="font-semibold underline decoration-accent/60 decoration-2 underline-offset-4 hover:text-accent"
+              className="font-display text-[0.95em] underline decoration-orange decoration-[3px] underline-offset-4 transition-colors hover:text-accent"
             >
               PROJECTS
             </a>{' '}
             or check out my{' '}
             <a
               href="#stack"
-              className="font-semibold underline decoration-accent/60 decoration-2 underline-offset-4 hover:text-accent"
+              className="font-display text-[0.95em] underline decoration-orange decoration-[3px] underline-offset-4 transition-colors hover:text-accent"
             >
               STACK
             </a>{' '}
@@ -207,7 +207,7 @@ export default function PhotoGallery() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="flex size-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-accent-soft hover:text-accent"
+                    className="flex size-9 items-center justify-center rounded-md border-2 border-transparent text-muted transition-[transform,color,border-color] duration-150 hover:-translate-y-0.5 hover:border-ink hover:bg-gold hover:text-ink dark:hover:border-gold/50 dark:hover:bg-gold/10 dark:hover:text-gold"
                   >
                     <Icon className="size-4" />
                   </a>

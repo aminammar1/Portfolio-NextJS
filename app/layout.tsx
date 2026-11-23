@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono, Old_Standard_TT, Poppins } from "next/font/google";
+import { Dela_Gothic_One, Geist_Mono, Zen_Kaku_Gothic_New } from "next/font/google";
 import "./globals.css";
 
-const poppins = Poppins({
+// Body: a Japanese gothic with clean Latin -- reads like anime UI text.
+const body = Zen_Kaku_Gothic_New({
   subsets: ["latin"],
-  variable: "--font-poppins",
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
+  weight: ["400", "500", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -14,10 +15,11 @@ const geistMono = Geist_Mono({
   weight: ["400", "500"],
 });
 
-const oldStandard = Old_Standard_TT({
+// Display: heavy, blocky title-card type for names and section titles.
+const anime = Dela_Gothic_One({
   subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["700"],
+  variable: "--font-anime",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -36,7 +38,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#080a0c" },
+    { media: "(prefers-color-scheme: light)", color: "#f2f7ff" },
+    { media: "(prefers-color-scheme: dark)", color: "#070b24" },
   ],
 };
 
@@ -59,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${poppins.variable} ${geistMono.variable} ${oldStandard.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${body.variable} ${geistMono.variable} ${anime.variable} font-sans antialiased bg-background text-foreground`}
       >
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         {children}

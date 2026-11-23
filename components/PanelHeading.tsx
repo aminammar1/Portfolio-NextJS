@@ -1,4 +1,5 @@
 import React from 'react'
+import KiTitle from '@/components/KiTitle'
 
 export default function PanelHeading({
   title,
@@ -11,13 +12,8 @@ export default function PanelHeading({
 }) {
   return (
     <div className="mb-6">
-      <h2 className="mb-2 text-balance text-2xl font-bold leading-tight tracking-tight">
-        {title}
-        {count !== undefined && (
-          <sup className="ml-2.5 text-sm font-medium tracking-normal text-muted">({count})</sup>
-        )}
-      </h2>
-      {description && <p className="mt-2 text-base text-muted">{description}</p>}
+      <KiTitle title={title} count={count} />
+      {description && <p className="mt-3 text-base text-muted">{description}</p>}
     </div>
   )
 }

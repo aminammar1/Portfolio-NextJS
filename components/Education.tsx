@@ -32,11 +32,11 @@ export default function Education() {
         {education.map((e) => (
           <div
             key={e.school}
-            className="flex items-center gap-3 border-b border-line px-2 py-4 last:border-b-0"
+            className="row-hover flex items-center gap-3 rounded-md border-b border-line px-3 py-4 last:border-b-0"
           >
-            <GraduationCap className="size-4 shrink-0 text-muted" />
+            <GraduationCap className="size-4 shrink-0 text-accent" />
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold">{e.school}</p>
+              <p className="truncate text-sm font-bold">{e.school}</p>
               <p className="truncate text-xs text-muted">
                 {e.degree} · {e.period} · {e.location}
               </p>

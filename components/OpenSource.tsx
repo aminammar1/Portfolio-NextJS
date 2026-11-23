@@ -109,7 +109,7 @@ export default function OpenSource() {
         description="More experiments living in public"
       />
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-line">
+      <div className="manga-panel mt-6 overflow-hidden bg-card">
         {repos.map((r, i) => (
           <a
             key={r.name}
@@ -121,14 +121,14 @@ export default function OpenSource() {
             }`}
           >
             <FaGithub className="size-4 shrink-0 text-muted" />
-            <span className="w-44 shrink-0 truncate font-mono text-[13px] font-medium group-hover:underline group-hover:underline-offset-4">
+            <span className="w-44 shrink-0 truncate font-mono text-[13px] font-medium group-hover:text-accent">
               {r.name}
             </span>
             <span className="hidden min-w-0 flex-1 truncate text-[13px] text-muted sm:block">{r.desc}</span>
             <span className="pill hidden shrink-0 md:inline-flex">{r.lang}</span>
             <span className="ml-auto flex shrink-0 items-center gap-2 font-mono text-[11px] text-muted sm:ml-0">
               {r.year}
-              <ArrowUpRight className="size-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
+              <ArrowUpRight className="size-3.5 text-accent opacity-0 transition-opacity group-hover:opacity-100" />
             </span>
           </a>
         ))}

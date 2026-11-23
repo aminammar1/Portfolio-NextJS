@@ -32,7 +32,7 @@ function EntryLogo({ initials, logo, name }: { initials: string; logo: string | 
   const [failed, setFailed] = useState(false)
   if (logo && !failed) {
     return (
-      <span className="relative size-9 shrink-0 overflow-hidden rounded-md border border-line bg-card">
+      <span className="relative size-9 shrink-0 overflow-hidden rounded-md border-2 border-ink bg-card dark:border-white/15">
         <Image
           src={logo}
           alt={`${name} logo`}
@@ -45,7 +45,7 @@ function EntryLogo({ initials, logo, name }: { initials: string; logo: string | 
     )
   }
   return (
-    <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-accent-soft font-mono text-[12px] font-bold text-accent">
+    <span className="flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-[radial-gradient(circle_at_34%_30%,#fff6cf_0%,#ffc21a_38%,#ff7a1a_72%,#d9480f_100%)] font-display text-[11px] text-ink">
       {initials}
     </span>
   )
@@ -61,11 +61,11 @@ export default function Companies() {
             href={e.url}
             target={e.url.startsWith('http') || e.url.startsWith('mailto') ? '_blank' : undefined}
             rel="noopener noreferrer"
-            className="group flex items-center gap-3 rounded-xl border border-line bg-card px-3 py-3 transition-colors hover:border-accent/50"
+            className="manga-panel group flex items-center gap-3 bg-card px-3 py-3"
           >
             <EntryLogo initials={e.initials} logo={e.logo} name={e.name} />
             <span className="min-w-0">
-              <span className="block truncate text-sm font-semibold group-hover:text-accent">
+              <span className="block truncate text-sm font-bold group-hover:text-accent">
                 {e.name}
               </span>
               <span className="block truncate text-xs text-muted">{e.detail}</span>

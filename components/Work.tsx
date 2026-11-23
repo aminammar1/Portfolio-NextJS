@@ -66,7 +66,7 @@ function Logo({ job }: { job: Job }) {
   const [failed, setFailed] = useState(false)
   if (job.logoPath && !failed) {
     return (
-      <span className="relative size-10 shrink-0 overflow-hidden rounded-md border border-line bg-card">
+      <span className="relative size-10 shrink-0 overflow-hidden rounded-md border-2 border-ink bg-card dark:border-white/15">
         <Image
           src={job.logoPath}
           alt={`${job.company} logo`}
@@ -79,7 +79,7 @@ function Logo({ job }: { job: Job }) {
     )
   }
   return (
-    <span className="flex size-10 shrink-0 items-center justify-center rounded-md border border-line bg-card font-mono text-[12px] font-bold text-muted">
+    <span className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-[radial-gradient(circle_at_34%_30%,#fff6cf_0%,#ffc21a_38%,#ff7a1a_72%,#d9480f_100%)] font-display text-[12px] text-ink shadow-[0_0_12px_rgba(255,138,31,0.45)]">
       {job.initials}
     </span>
   )
@@ -108,7 +108,7 @@ export default function Work() {
                       href={job.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="truncate text-sm font-semibold hover:underline"
+                      className="truncate text-sm font-bold hover:text-accent"
                     >
                       {job.company}
                     </a>
@@ -117,8 +117,8 @@ export default function Work() {
                   )}
                   {job.isCurrent && (
                     <span className="relative flex size-2 shrink-0">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-60" />
-                      <span className="relative inline-flex size-2 rounded-full bg-green-500" />
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange opacity-60" />
+                      <span className="relative inline-flex size-2 rounded-full bg-orange shadow-[0_0_6px_var(--orange)]" />
                     </span>
                   )}
                 </div>
@@ -137,7 +137,7 @@ export default function Work() {
               )}
             </div>
 
-            <div className="mb-1 ml-5 mt-2 border-l border-dashed border-line pl-5">
+            <div className="mb-1 ml-5 mt-2 border-l-2 border-dashed border-orange/50 pl-5">
               {job.positions.map((pos, pi) => {
                 const key = `${job.company}-${pi}`
                 const isOpen = open === key
@@ -150,9 +150,9 @@ export default function Work() {
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') setOpen(isOpen ? null : key)
                       }}
-                      className="-mx-2 flex cursor-pointer items-center gap-3 rounded-lg px-2 py-2 outline-none transition-colors hover:bg-card-2 focus-visible:ring-2 focus-visible:ring-accent"
+                      className="row-hover -mx-2 flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 outline-none focus-visible:ring-2 focus-visible:ring-orange"
                     >
-                      <Briefcase className="size-4 shrink-0 text-muted" />
+                      <Briefcase className="size-4 shrink-0 text-accent" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-medium">{pos.role}</p>
                         <p className="truncate text-xs text-muted">

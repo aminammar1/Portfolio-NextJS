@@ -85,7 +85,7 @@ function ProjectIcon({ project }: { project: Project }) {
   const [failed, setFailed] = useState(false)
   if (project.shot && !failed) {
     return (
-      <span className="relative size-9 shrink-0 overflow-hidden rounded-md border border-line bg-card-2">
+      <span className="relative size-10 shrink-0 overflow-hidden rounded-md border-2 border-ink bg-card-2 transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-110 dark:border-white/15">
         <Image
           src={project.shot}
           alt=""
@@ -150,15 +150,15 @@ export default function Projects() {
                 window.open(p.link, '_blank', 'noopener')
               }
             }}
-            className="group relative -mx-2 flex cursor-pointer items-center gap-3 rounded-lg border-b border-line px-2 py-3 outline-none transition-colors last:border-b-0 hover:bg-card-2 focus-visible:ring-2 focus-visible:ring-accent"
+            className="row-hover group relative -mx-2 flex cursor-pointer items-center gap-3 rounded-md border-b border-line px-3 py-3 outline-none last:border-b-0 focus-visible:ring-2 focus-visible:ring-orange"
           >
             <ProjectIcon project={p} />
             <span className="min-w-0 flex-1">
               <span className="flex items-center gap-2">
-                <span className="truncate text-sm font-semibold">{p.name}</span>
+                <span className="truncate text-sm font-bold group-hover:text-accent">{p.name}</span>
                 <span className="relative flex size-2 shrink-0" title={p.note}>
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-60" />
-                  <span className="relative inline-flex size-2 rounded-full bg-green-500" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange opacity-60" />
+                  <span className="relative inline-flex size-2 rounded-full bg-orange shadow-[0_0_6px_var(--orange)]" />
                 </span>
               </span>
               <span className="mt-0.5 block text-xs text-muted">{p.year}</span>
@@ -182,7 +182,7 @@ export default function Projects() {
                 <FaGithub className="size-4" />
               </a>
             )}
-            <ArrowUpRight className="size-4 shrink-0 text-muted" />
+            <ArrowUpRight className="size-4 shrink-0 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
           </div>
         ))}
       </div>
@@ -190,7 +190,7 @@ export default function Projects() {
       <div className="mt-4 flex justify-center">
         <button
           onClick={() => setShowAll(!showAll)}
-          className="rounded-md border border-line bg-card px-3 py-1.5 text-[12px] text-muted transition-colors hover:text-foreground"
+          className="ink-button px-4 py-1.5 text-[12px]"
         >
           {showAll ? 'Show less' : `Show more (${projects.length})`}
         </button>

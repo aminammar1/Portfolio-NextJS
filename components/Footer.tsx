@@ -68,7 +68,7 @@ function SkyClock() {
   const phase = useTunisPhase()
   const meta = PHASE_META[phase]
   return (
-    <span className="hidden items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted sm:inline-flex">
+    <span className="hidden items-center gap-2 font-mono text-[11px] tracking-[0.1em] text-muted sm:inline-flex">
       <span
         aria-hidden
         className={cn('size-2 shrink-0 rounded-[1px] bg-gradient-to-r', meta.gradient)}
@@ -91,7 +91,7 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="w-full space-y-4 border-t border-line px-2 py-4">
+    <footer className="w-full space-y-4 border-t-2 border-ink px-2 py-4 dark:border-white/10">
       <div className="mx-auto flex sm:max-w-lg md:max-w-2xl xl:max-w-3xl items-center gap-4 px-4">
         {socials.map(({ Icon, link, label }) => (
           <a
@@ -100,7 +100,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={label}
-            className="text-foreground/80 transition-all duration-200 hover:text-accent"
+            className="text-foreground/80 transition-all duration-200 hover:-translate-y-0.5 hover:text-accent"
           >
             <Icon className="size-4" />
           </a>
@@ -110,7 +110,7 @@ export default function Footer() {
       <div className="mx-auto flex sm:max-w-lg md:max-w-2xl xl:max-w-3xl items-center justify-between px-4">
         <p className="text-xs text-muted">
           © {new Date().getFullYear()}{' '}
-          <span className="font-semibold tracking-wide text-accent">MOHAMED AMINE</span>. All rights
+          <span className="font-display tracking-wide text-accent">MOHAMED AMINE</span>. All rights
           reserved.
         </p>
         <div className="flex items-center gap-4">

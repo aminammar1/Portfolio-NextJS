@@ -17,16 +17,23 @@ import Games from '@/components/Games'
 import Reading from '@/components/Reading'
 import Footer from '@/components/Footer'
 import AskMeAnything from '@/components/AskMeAnything'
+import MotionProvider from '@/components/MotionProvider'
+import KiBeam from '@/components/KiBeam'
+import ImpactClicks from '@/components/ImpactClicks'
 
 export default function Home() {
   return (
-    <main className="relative pb-10">
+    <MotionProvider>
+    <main className="relative overflow-x-clip pb-10">
       <Background />
+      <KiBeam />
+      <ImpactClicks />
+      {/* Title-card katakana (アミン = Amine), outlined, running down the right edge */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed bottom-0 left-0 z-0 select-none font-sans text-[22vw] font-black leading-none tracking-tighter text-foreground/[0.025]"
+        className="pointer-events-none fixed right-3 top-1/2 z-0 hidden -translate-y-1/2 select-none font-display text-[min(15vh,8rem)] leading-[1.05] text-transparent [-webkit-text-stroke:1.5px_var(--line)] [writing-mode:vertical-rl] xl:block"
       >
-        AMINE
+        アミン
       </div>
       <div className="relative z-10">
         <Navbar />
@@ -43,9 +50,9 @@ export default function Home() {
         <Divider />
         <Stack>
           <div className="mt-8 border-t border-line pt-8">
-            <h3 className="mb-4 flex flex-wrap items-baseline gap-x-3 text-xl font-semibold leading-tight">
+            <h3 className="mb-6 flex flex-wrap items-baseline gap-x-3 font-display text-2xl leading-tight">
               Personals
-              <span className="text-sm font-medium tracking-normal text-muted">· Favourites</span>
+              <span className="font-sans text-sm font-medium tracking-normal text-muted">· Favourites</span>
             </h3>
             <div className="space-y-8">
               <Artists />
@@ -68,5 +75,6 @@ export default function Home() {
         <AskMeAnything />
       </div>
     </main>
+    </MotionProvider>
   )
 }

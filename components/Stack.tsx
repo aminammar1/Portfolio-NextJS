@@ -148,7 +148,7 @@ export default function Stack({ children }: { children?: React.ReactNode }) {
         {visible.map((cat, i) => (
           <div key={cat.title} className="grid gap-x-4 gap-y-2 border-b border-line py-4 last:border-none sm:grid-cols-[12rem_1fr]">
             <div className="flex h-6 items-center truncate text-sm text-muted">
-              <span className="mr-1.5 shrink-0 select-none font-mono text-muted/50" aria-hidden>
+              <span className="mr-1.5 shrink-0 select-none font-display text-orange/70" aria-hidden>
                 {'0' + (i + 1)}
               </span>
               <span className="truncate">{cat.title}</span>
@@ -156,7 +156,7 @@ export default function Stack({ children }: { children?: React.ReactNode }) {
             <ul className="flex flex-wrap gap-1.5">
               {cat.items.map((item) => (
                 <li key={`${cat.title}-${item.label}`} className="flex">
-                  <span className="flex h-6 items-center gap-1.5 whitespace-nowrap rounded-full bg-card-2 px-2 font-mono text-xs text-foreground ring-1 ring-line transition-colors">
+                  <span className="flex h-6 items-center gap-1.5 whitespace-nowrap rounded-[3px] border border-line-strong bg-card px-2 font-mono text-xs text-foreground transition-[transform,border-color,box-shadow] duration-150 hover:-translate-y-0.5 hover:border-orange hover:shadow-[0_3px_0_var(--orange)]">
                     <TechIcon slug={item.slug} label={item.label} Icon={item.Icon} color={item.color} />
                     {item.label}
                   </span>
@@ -170,7 +170,7 @@ export default function Stack({ children }: { children?: React.ReactNode }) {
       <div className="mt-2 flex justify-center">
         <button
           onClick={() => setShowAll(!showAll)}
-          className="rounded-md border border-line bg-card px-3 py-1.5 text-[12px] text-muted transition-colors hover:text-foreground"
+          className="ink-button px-4 py-1.5 text-[12px]"
         >
           {showAll ? 'Show less' : 'Show more'}
         </button>
@@ -178,7 +178,7 @@ export default function Stack({ children }: { children?: React.ReactNode }) {
 
       <div className="mt-8 flex items-center gap-2 border-t border-line pt-6">
         <Cpu className="size-4 text-accent" />
-        <p className="font-mono text-[11px] uppercase tracking-wider text-muted">
+        <p className="font-display text-sm text-muted">
           Also in the toolbox
         </p>
       </div>
