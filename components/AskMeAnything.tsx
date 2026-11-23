@@ -42,7 +42,7 @@ export default function AskMeAnything() {
           onClick={send}
           disabled={!value.trim()}
           aria-label="Send question"
-          className="absolute bottom-1.5 right-1.5 flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-[radial-gradient(circle_at_34%_30%,#fff6cf_0%,#ffc21a_38%,#ff7a1a_72%,#d9480f_100%)] text-ink shadow-[0_0_14px_rgba(255,138,31,0.6)] transition-transform hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:hover:scale-100"
+          className="absolute bottom-1.5 right-1.5 flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-ink ki-orb text-ink shadow-[0_0_14px_rgba(255,138,31,0.6)] transition-transform hover:scale-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:hover:scale-100"
         >
           <CornerDownLeft className="size-4" />
         </button>

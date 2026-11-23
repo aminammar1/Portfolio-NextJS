@@ -79,7 +79,7 @@ function Logo({ job }: { job: Job }) {
     )
   }
   return (
-    <span className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-[radial-gradient(circle_at_34%_30%,#fff6cf_0%,#ffc21a_38%,#ff7a1a_72%,#d9480f_100%)] font-display text-[12px] text-ink shadow-[0_0_12px_rgba(255,138,31,0.45)]">
+    <span className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-ink ki-orb font-display text-[12px] text-ink shadow-[0_0_12px_rgba(255,138,31,0.45)]">
       {job.initials}
     </span>
   )

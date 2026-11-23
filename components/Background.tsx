@@ -41,6 +41,9 @@ export default function Background() {
       {/* Sky */}
       <div className="absolute inset-0 bg-[linear-gradient(180deg,#bfdcff_0%,#dcecff_28%,#f2f7ff_60%)] dark:bg-[radial-gradient(ellipse_70%_45%_at_80%_0%,rgba(255,138,31,0.16),transparent_70%),radial-gradient(ellipse_60%_50%_at_10%_20%,rgba(77,130,255,0.18),transparent_70%),linear-gradient(180deg,#0a1140_0%,#070b24_55%)]" />
 
+      {/* Super Saiyan form: golden light floods the sky (fades in via CSS) */}
+      <div className="ssj-sky absolute inset-0" />
+
       {/* Clouds (day only) */}
       <div className="dark:hidden">
         <Cloud className="left-[-4%] top-[9%] h-16 w-56 opacity-80" />

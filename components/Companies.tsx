@@ -45,7 +45,7 @@ function EntryLogo({ initials, logo, name }: { initials: string; logo: string | 
     )
   }
   return (
-    <span className="flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-ink bg-[radial-gradient(circle_at_34%_30%,#fff6cf_0%,#ffc21a_38%,#ff7a1a_72%,#d9480f_100%)] font-display text-[11px] text-ink">
+    <span className="flex size-9 shrink-0 items-center justify-center rounded-full border-2 border-ink ki-orb font-display text-[11px] text-ink">
       {initials}
     </span>
   )

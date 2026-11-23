@@ -16,7 +16,9 @@ import {
 import pfimage from '@/assets/pfimage.jpg'
 import RotatingSubtitle from '@/components/RotatingSubtitle'
 import FocusLines from '@/components/FocusLines'
+import SaiyanAura, { Debris } from '@/components/SaiyanAura'
 import { loadContributions } from '@/lib/github-contributions'
+import { usePrefersReducedMotion } from '@/lib/use-reduced-motion'
 import { cn } from '@/lib/utils'
 
 /*
@@ -26,16 +28,14 @@ import { cn } from '@/lib/utils'
  *  t=0.25  name letters slam down one by one
  *  t=0.85  impact flash, scouter boots and reads the power level
  *          (= real GitHub contributions over the last year)
- * Press and hold the avatar to charge: aura and shake intensify, the
- * scouter climbs past 9000, release fires a flash and it settles back.
+ * Press and hold the avatar to charge: aura and shake intensify, rocks
+ * tear loose, the scouter climbs. Breaking 9000 transforms: white-out,
+ * shockwave, and the whole site goes Super Saiyan gold (data-form on
+ * <html>, see globals.css). Charge again for Super Saiyan 2 (lightning).
+ * Release springs the reading back to the real number.
  */
 
 const NAME = ['Mohamed', 'Amine', 'Ammar']
-
-const FLAMES = [-84, -66, -50, -36, -24, -12, 0, 12, 24, 36, 50, 66, 84, -104, 104, -6, 6].map((a, i) => ({
-  a,
-  delay: -((i * 0.37) % 1.15),
-}))
 
 const SPARKS = [
   { left: '14%', dx: '-18px', delay: '0s' },
@@ -66,6 +66,19 @@ const letter: Variants = {
 const INTRO_FLASH_MS = 850
 const OVER_9000 = 9000
 
+type Form = 0 | 1 | 2
+const FORMS = [
+  { name: 'Base form', attr: null, hint: 'Hold to power up' },
+  { name: 'Super Saiyan', attr: 'ssj', hint: 'Hold for more' },
+  { name: 'Super Saiyan 2', attr: 'ssj2', hint: 'Max power' },
+] as const
+
+function applyForm(form: Form) {
+  const attr = FORMS[form].attr
+  if (attr) document.documentElement.dataset.form = attr
+  else delete document.documentElement.dataset.form
+}
+
 function AnimeName() {
   let index = 0
   return (
@@ -92,23 +105,17 @@ function AnimeName() {
   )
 }
 
-function Aura({ charging }: { charging: boolean }) {
+function Aura({ charging, form }: { charging: boolean; form: Form }) {
   return (
     <m.div
       aria-hidden
       className="pointer-events-none absolute -inset-[48%]"
       initial={{ opacity: 0, scale: 0.4 }}
-      animate={{ opacity: 1, scale: charging ? 1.18 : 1 }}
+      animate={{ opacity: 1, scale: charging ? 1.2 : form ? 1.08 : 1 }}
       transition={{ type: 'spring', stiffness: 260, damping: 18, delay: charging ? 0 : 0.15 }}
     >
       <div className="aura-glow" />
-      {FLAMES.map(({ a, delay }) => (
-        <span
-          key={a}
-          className="aura-flame"
-          style={{ '--a': `${a}deg`, animationDelay: `${delay}s` } as React.CSSProperties}
-        />
-      ))}
+      <SaiyanAura />
       {SPARKS.map((s) => (
         <span
           key={s.left}
@@ -118,7 +125,7 @@ function Aura({ charging }: { charging: boolean }) {
       ))}
       <svg
         viewBox="0 0 100 100"
-        className={cn('absolute inset-0 h-full w-full', charging ? 'opacity-100' : 'opacity-0')}
+        className={cn('absolute inset-0 h-full w-full', charging || form === 2 ? 'opacity-100' : 'opacity-0')}
       >
         <g fill="none" stroke="#bcd3ff" strokeWidth="1.4" strokeLinejoin="bevel" className="aura-bolt">
           <path d="M18 30 L26 38 L22 41 L31 52 L27 54 L35 66" />
@@ -205,13 +212,34 @@ export default function Hero() {
   const [charging, setCharging] = useState(false)
   const [over9000, setOver9000] = useState(false)
   const [flash, setFlash] = useState(0)
+  const [form, setForm] = useState<Form>(0)
+  const [burst, setBurst] = useState(0)
   const chargeAnim = useRef<AnimationPlaybackControls | null>(null)
   const baseRef = useRef(0)
+  const chargingRef = useRef(false)
+  const formRef = useRef<Form>(0)
+  const transformedThisCharge = useRef(false)
+  const reducedMotion = usePrefersReducedMotion()
+
+  const setFormEverywhere = (next: Form) => {
+    formRef.current = next
+    setForm(next)
+    applyForm(next)
+  }
 
   useMotionValueEvent(power, 'change', (v) => {
     const over = v > OVER_9000
     setOver9000((prev) => (prev === over ? prev : over))
+    // Breaking 9000 mid-charge is the transformation moment.
+    if (over && chargingRef.current && !transformedThisCharge.current && formRef.current < 2) {
+      transformedThisCharge.current = true
+      setFormEverywhere((formRef.current + 1) as Form)
+      setBurst((n) => n + 1)
+    }
   })
+
+  // Leaving the page (or HMR) must not strand the site in gold.
+  useEffect(() => () => applyForm(0), [])
 
   // Intro flash, then boot the scouter with the real reading.
   useEffect(() => {
@@ -240,6 +268,8 @@ export default function Hero() {
 
   const startCharge = () => {
     if (charging) return
+    chargingRef.current = true
+    transformedThisCharge.current = false
     setCharging(true)
     chargeAnim.current?.stop()
     const peak = Math.max(12000, (base ?? 0) * 2)
@@ -248,6 +278,7 @@ export default function Hero() {
 
   const release = () => {
     if (!charging) return
+    chargingRef.current = false
     setCharging(false)
     chargeAnim.current?.stop()
     setFlash((n) => n + 1)
@@ -255,6 +286,20 @@ export default function Hero() {
   }
 
   return (
+    <>
+    <AnimatePresence>
+      {burst > 0 && !reducedMotion && (
+        <m.div
+          key={`whiteout-${burst}`}
+          aria-hidden
+          className="pointer-events-none fixed inset-0 z-[70] bg-[radial-gradient(circle_at_50%_30%,#ffffff_0%,#fff7cc_45%,rgba(255,214,40,0.6)_100%)]"
+          initial={{ opacity: 0.85 }}
+          animate={{ opacity: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.55, ease: 'easeOut' }}
+        />
+      )}
+    </AnimatePresence>
     <section
       className={cn(
         'screen-line-bottom relative mx-auto px-4 pb-10 pt-24 sm:max-w-lg md:max-w-2xl xl:max-w-3xl',
@@ -262,7 +307,7 @@ export default function Hero() {
       )}
     >
       <div className="shake-on-charge relative z-10 flex flex-col gap-7 sm:flex-row sm:items-center sm:gap-10">
-        <div className="relative flex shrink-0 flex-col items-center gap-3 self-start pl-6 pt-4 sm:self-center sm:pl-0 sm:pt-0">
+        <div className="relative flex w-36 shrink-0 flex-col items-center gap-3 self-start pt-4 sm:self-center sm:pt-0">
           <div className="relative size-28">
             <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 size-[620px] -translate-x-1/2 -translate-y-1/2">
               <m.div
@@ -275,7 +320,23 @@ export default function Hero() {
               </m.div>
             </div>
 
-            <Aura charging={charging} />
+            <Aura charging={charging} form={form} />
+            <Debris />
+
+            {/* Transformation shockwave: a ring that blows out past the hero */}
+            <AnimatePresence>
+              {burst > 0 && (
+                <m.span
+                  key={`ring-${burst}`}
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 z-20 rounded-full border-[6px] border-gold shadow-[0_0_30px_8px_rgba(var(--glow),0.7),inset_0_0_24px_4px_rgba(255,255,255,0.8)]"
+                  initial={{ opacity: 1, scale: 0.6 }}
+                  animate={{ opacity: 0, scale: 9 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.8, ease: [0.1, 0.7, 0.3, 1] }}
+                />
+              )}
+            </AnimatePresence>
 
             <AnimatePresence>
               {flash > 0 && (
@@ -295,7 +356,10 @@ export default function Hero() {
               type="button"
               aria-label="Power up: press and hold"
               aria-describedby="power-hint"
-              className="relative z-10 block size-28 touch-none select-none overflow-hidden rounded-full border-[3px] border-ink bg-card [-webkit-touch-callout:none] dark:border-gold"
+              className={cn(
+                'relative z-10 block size-28 touch-none select-none overflow-hidden rounded-full border-[3px] border-ink bg-card [-webkit-touch-callout:none] dark:border-gold',
+                form > 0 && 'border-gold shadow-[0_0_0_3px_var(--ink),0_0_24px_6px_rgba(var(--glow),0.75)]'
+              )}
               initial={{ scale: 0, rotate: -25 }}
               animate={{ scale: charging ? 1.06 : 1, rotate: 0 }}
               whileTap={{ scale: 0.97 }}
@@ -323,21 +387,47 @@ export default function Hero() {
                 alt="Mohamed Amine Ammar"
                 width={112}
                 height={112}
-                priority
+                preload
                 draggable={false}
                 className="size-full object-cover object-top"
               />
+              {/* Transformed: the hair (top of the photo) burns gold */}
+              <span
+                aria-hidden
+                className={cn(
+                  'pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#ffd21a_0%,rgba(255,210,26,0.75)_22%,rgba(255,210,26,0)_46%)] mix-blend-screen transition-opacity duration-300',
+                  form ? 'opacity-100' : 'opacity-0'
+                )}
+              />
             </m.button>
           </div>
-          <m.p
-            id="power-hint"
-            className="font-mono text-[11px] text-muted"
+          <m.div
+            className="flex flex-col items-center gap-0.5 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.6 }}
           >
-            {charging ? 'Charging…' : 'Hold to power up'}
-          </m.p>
+            {form > 0 && (
+              <span className="anime-outline whitespace-nowrap font-display text-sm leading-none">
+                <span className="anime-fill">{FORMS[form].name}</span>
+              </span>
+            )}
+            <span id="power-hint" className="font-mono text-[11px] text-muted">
+              {charging ? 'Charging…' : FORMS[form].hint}
+            </span>
+            {form > 0 && !charging && (
+              <button
+                type="button"
+                onClick={() => setFormEverywhere(0)}
+                className="font-mono text-[11px] text-muted underline decoration-dotted underline-offset-2 hover:text-accent"
+              >
+                Power down
+              </button>
+            )}
+            <span className="sr-only" aria-live="polite">
+              {form > 0 ? `Transformed: ${FORMS[form].name}` : ''}
+            </span>
+          </m.div>
         </div>
 
         <div className="min-w-0">
@@ -359,5 +449,6 @@ export default function Hero() {
         </div>
       </div>
     </section>
+    </>
   )
 }

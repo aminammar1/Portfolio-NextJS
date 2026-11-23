@@ -35,6 +35,19 @@
   --heat-2: #ffb766;
   --heat-3: #ff8a24;
   --heat-4: #d9480f;
+  /* derived ki tokens -- the transformation below retints all of them */
+  --orange-deep: #d9480f;
+  --beam: var(--blue);
+  --fill-1: #fff27a;
+  --fill-2: #ffc21a;
+  --fill-3: #ff8a1f;
+  --fill-4: #f0520a;
+  --aura-hi: #fff6c0;
+  --aura-mid: var(--gold);
+  --aura-lo: var(--orange);
+  --aura-core: #fffbe6;
+  --aura-line: var(--ink);
+  --glow: 255, 138, 31;
 }
 
 .dark {
@@ -61,6 +74,47 @@
   --heat-2: #8a4510;
   --heat-3: #e06a0a;
   --heat-4: #ffb020;
+  --aura-line: rgba(255, 246, 200, 0.55);
+}
+
+/*
+ * SUPER SAIYAN FORM -- set as data-form on <html> by the hero when the power
+ * level breaks 9000. Gi orange burns off into blazing gold everywhere; the
+ * flash in Hero.tsx covers the instant palette swap like an anime cut.
+ * Specificity (0,2,0) beats .dark; the .dark[data-form] block follows it.
+ */
+:root[data-form] {
+  --orange: #ffb000;
+  --orange-deep: #e07b00;
+  --gold: #ffe14a;
+  --accent: #8f5300; /* 5.7:1 on the light sky */
+  --accent-soft: rgba(255, 200, 30, 0.2);
+  --beam: #ffc400;
+  --fill-1: #ffffff;
+  --fill-2: #fff38a;
+  --fill-3: #ffd21a;
+  --fill-4: #f5a300;
+  --aura-hi: #ffffff;
+  --aura-mid: #fff07a;
+  --aura-lo: #ffc400;
+  --glow: 255, 205, 40;
+  --heat-1: #fff1b0;
+  --heat-2: #ffe066;
+  --heat-3: #ffc400;
+  --heat-4: #e08f00;
+}
+.dark[data-form] {
+  --accent: #ffd23f;
+  --panel-shadow: 0 0 0 1px rgba(255, 210, 63, 0.12), 0 10px 30px -12px rgba(0, 0, 0, 0.7);
+  --panel-shadow-hover: 0 0 0 1px rgba(255, 210, 63, 0.6), 0 0 30px -4px rgba(255, 200, 30, 0.6);
+  --heat-1: #4a3a0c;
+  --heat-2: #8a6a0c;
+  --heat-3: #e0a80a;
+  --heat-4: #ffe14a;
+}
+/* Super Saiyan 2: the same gold, now crackling with blue-white lightning. */
+:root[data-form="ssj2"] {
+  --aura-hi: #f4fbff;
 }
 
 @theme inline {
@@ -79,7 +133,7 @@
 
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
-  --font-display: var(--font-anime), "Hiragino Kaku Gothic StdN", "Yu Gothic", "Noto Sans CJK JP", Impact, sans-serif;
+  --font-display: var(--font-anime), var(--font-anime-kana), "Hiragino Kaku Gothic StdN", "Yu Gothic", "Noto Sans CJK JP", Impact, sans-serif;
 
   --animate-shine: shine 4s ease-in-out infinite;
 }
@@ -123,7 +177,7 @@ body {
    shonen logo fill. The outline + drop comes from .anime-outline on the
    parent so neighbouring letters never paint over each other. */
 .anime-fill {
-  background-image: linear-gradient(180deg, #fff27a 0%, #ffc21a 38%, #ff8a1f 68%, #f0520a 100%);
+  background-image: linear-gradient(180deg, var(--fill-1) 0%, var(--fill-2) 38%, var(--fill-3) 68%, var(--fill-4) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -136,7 +190,7 @@ body {
 .dark .anime-outline {
   filter: drop-shadow(1.5px 0 0 var(--ink)) drop-shadow(-1.5px 0 0 var(--ink))
     drop-shadow(0 1.5px 0 var(--ink)) drop-shadow(0 -1.5px 0 var(--ink))
-    drop-shadow(4px 5px 0 var(--ink)) drop-shadow(0 0 22px rgba(255, 138, 31, 0.45));
+    drop-shadow(4px 5px 0 var(--ink)) drop-shadow(0 0 22px rgba(var(--glow), 0.45));
 }
 
 /* ------------------------------------------------------------------ */
@@ -169,38 +223,119 @@ body {
   animation-delay: -0.28s;
 }
 
-/* Aura flame tongues: each one is rotated into place by --a, then rises
-   and stretches outward on a loop. Transform + opacity only. */
-@keyframes flame-rise {
-  0% {
-    transform: rotate(var(--a)) translateY(-26%) scale(0.7, 0.5);
+/* Super Saiyan aura (SaiyanAura.tsx): three cel frames flipped with
+   steps() -- the 12fps two-tone flicker of a hand-drawn aura -- inside a
+   wrapper that breathes. Opacity + transform only. */
+@keyframes aura-frame {
+  0%,
+  33.32% {
+    opacity: 1;
+  }
+  33.33%,
+  100% {
     opacity: 0;
   }
-  30% {
-    opacity: 0.9;
+}
+@keyframes aura-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.045, 1.07);
+  }
+}
+.saiyan-aura {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 62%;
+  animation: aura-breathe 1.1s ease-in-out infinite;
+}
+.saiyan-aura-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: aura-frame 0.25s steps(1, end) infinite;
+}
+.saiyan-aura-frame:nth-of-type(3) {
+  animation-delay: -0.0833s;
+}
+.saiyan-aura-frame:nth-of-type(4) {
+  animation-delay: -0.1666s;
+}
+.aura-stop-hi {
+  stop-color: var(--aura-hi);
+}
+.aura-stop-mid {
+  stop-color: var(--aura-mid);
+}
+.aura-stop-lo {
+  stop-color: var(--aura-lo);
+}
+.aura-outer {
+  fill: url(#aura-outer);
+  stroke: var(--aura-line);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+.aura-inner {
+  fill: var(--aura-core);
+  opacity: 0.9;
+}
+.dark .saiyan-aura-frame {
+  mix-blend-mode: screen;
+}
+.dark .aura-outer {
+  stroke-width: 1;
+}
+
+/* Rocks tearing loose while charging */
+@keyframes rock-rise {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
   }
   100% {
-    transform: rotate(var(--a)) translateY(-58%) scale(0.35, 1.15);
+    transform: translate3d(0, -170px, 0) rotate(var(--spin));
     opacity: 0;
   }
 }
-.aura-flame {
+.debris {
+  display: none;
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 20%;
-  height: 50%;
-  margin-left: -10%;
-  margin-top: -25%;
-  transform-origin: 50% 100%;
-  border-radius: 50% 50% 45% 45% / 80% 80% 20% 20%;
-  background: radial-gradient(ellipse 50% 85% at 50% 90%, #fffbe0 0%, var(--gold) 40%, rgba(255, 138, 31, 0.55) 66%, transparent 78%);
-  mix-blend-mode: screen;
-  animation: flame-rise 1.15s cubic-bezier(0.3, 0.6, 0.4, 1) infinite;
+  inset: auto -40% -12% -40%;
+  height: 24px;
 }
-:root:not(.dark) .aura-flame {
-  mix-blend-mode: normal;
-  background: radial-gradient(ellipse 50% 85% at 50% 90%, #fff6c0 0%, var(--gold) 40%, rgba(255, 122, 26, 0.6) 66%, transparent 78%);
+.is-charging .debris {
+  display: block;
+}
+.debris-rock {
+  position: absolute;
+  bottom: 0;
+  background: #7a6650;
+  box-shadow: inset -2px -2px 0 rgba(10, 16, 51, 0.45);
+  animation: rock-rise 1.4s cubic-bezier(0.3, 0.1, 0.5, 1) infinite;
+}
+.dark .debris-rock {
+  background: #514868;
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.5), 1px -1px 0 rgba(var(--glow), 0.8);
+}
+.debris-shape-0 {
+  clip-path: polygon(10% 30%, 45% 0, 90% 15%, 100% 70%, 60% 100%, 5% 85%);
+}
+.debris-shape-1 {
+  clip-path: polygon(0 45%, 30% 5%, 75% 0, 100% 40%, 80% 95%, 20% 100%);
+}
+.debris-shape-2 {
+  clip-path: polygon(15% 0, 100% 20%, 85% 80%, 40% 100%, 0 60%);
 }
 
 @keyframes aura-pulse {
@@ -218,7 +353,7 @@ body {
   position: absolute;
   inset: -18%;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(255, 210, 63, 0.75) 30%, rgba(255, 122, 26, 0.35) 52%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 225, 90, 0.75) 30%, rgba(var(--glow), 0.38) 52%, transparent 70%);
   animation: aura-pulse 0.9s ease-in-out infinite;
 }
 
@@ -269,8 +404,8 @@ body {
 }
 
 /* Charging = everything faster and hotter. */
-.is-charging .aura-flame {
-  animation-duration: 0.5s;
+.is-charging .saiyan-aura {
+  animation-duration: 0.3s;
 }
 .is-charging .aura-glow {
   animation-duration: 0.28s;
@@ -363,6 +498,27 @@ body {
     repeating-linear-gradient(90deg, rgba(238, 241, 255, 0.5) 0 90px, transparent 90px 130px, rgba(238, 241, 255, 0.35) 130px 160px, transparent 160px 260px),
     repeating-linear-gradient(90deg, transparent 0 40px, var(--orange) 40px 140px, transparent 140px 330px),
     repeating-linear-gradient(90deg, rgba(77, 130, 255, 0.7) 0 220px, transparent 220px 270px, rgba(77, 130, 255, 0.5) 270px 300px, transparent 300px 470px);
+}
+
+/* Super Saiyan 2: lightning crackling off every section title */
+.title-bolt {
+  display: none;
+}
+:root[data-form="ssj2"] .title-bolt {
+  display: block;
+  animation: bolt-flicker 1.3s steps(1, end) infinite;
+}
+
+/* Golden sky wash behind everything once transformed */
+.ssj-sky {
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+  background:
+    radial-gradient(ellipse 80% 45% at 50% 0%, rgba(255, 214, 40, 0.32), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(255, 190, 0, 0.12), transparent 70%);
+}
+:root[data-form] .ssj-sky {
+  opacity: 1;
 }
 
 /* Floating ki particles in the page background */
@@ -509,6 +665,10 @@ body {
 /* ------------------------------------------------------------------ */
 
 @layer components {
+/* Glowing dragon-orb badge (title counts, company/job initials, send button) */
+.ki-orb {
+  background: radial-gradient(circle at 34% 30%, #fff6cf 0%, var(--gold) 38%, var(--orange) 72%, var(--orange-deep) 100%);
+}
 .section-label {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -718,9 +878,19 @@ a.manga-panel:focus-visible {
   }
   .ki-particle,
   .ki-spark,
-  .aura-flame,
+  .debris,
   .speed-strip {
     animation: none !important;
     opacity: 0 !important;
+  }
+  /* Aura holds still on its first frame; bolts stay lit instead of flickering. */
+  .saiyan-aura,
+  .saiyan-aura-frame,
+  .aura-bolt,
+  .title-bolt {
+    animation: none !important;
+  }
+  .saiyan-aura-frame:not(:nth-of-type(2)) {
+    opacity: 0;
   }
 }

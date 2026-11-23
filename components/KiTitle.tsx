@@ -58,6 +58,22 @@ export default function KiTitle({
           size === 'lg' ? '-left-2 bottom-[-0.08em] h-[0.5em] w-[calc(100%+1.5rem)]' : '-left-1.5 bottom-[-0.06em] h-[0.45em] w-[calc(100%+1rem)]'
         )}
       />
+      {/* Super Saiyan 2 only: lightning arcing off the slash (CSS-toggled) */}
+      <svg
+        aria-hidden
+        viewBox="0 0 60 24"
+        className="title-bolt pointer-events-none absolute -right-7 -top-2 -z-10 h-[1.1em] w-[2.6em] overflow-visible"
+      >
+        <path
+          d="M2 18 L14 12 L11 9 L26 4 L22 10 L36 6 L31 13 L46 9 L58 2"
+          fill="none"
+          stroke="#e6f3ff"
+          strokeWidth="2.2"
+          strokeLinejoin="bevel"
+          style={{ filter: 'drop-shadow(0 0 3px #7fb2ff)' }}
+        />
+        <path d="M8 22 L18 18 L16 15 L28 14" fill="none" stroke="#bcd3ff" strokeWidth="1.2" strokeLinejoin="bevel" />
+      </svg>
       <m.span variants={word} className="inline-block">
         {title}
       </m.span>
@@ -66,7 +82,7 @@ export default function KiTitle({
           variants={orb}
           aria-label={`(${count})`}
           className={cn(
-            'inline-flex shrink-0 items-center justify-center rounded-full border-2 border-ink bg-[radial-gradient(circle_at_34%_30%,#fff6cf_0%,#ffc21a_38%,#ff7a1a_72%,#d9480f_100%)] font-sans font-bold text-ink shadow-[0_0_14px_rgba(255,138,31,0.55)]',
+            'inline-flex shrink-0 items-center justify-center rounded-full border-2 border-ink ki-orb font-sans font-bold text-ink shadow-[0_0_14px_rgba(var(--glow),0.55)]',
             size === 'lg' ? 'size-8 text-[13px]' : 'size-6 text-[11px]'
           )}
         >
