@@ -54,7 +54,7 @@ export default function Artists() {
                 src={a.image}
                 alt={a.name}
                 fill
-                sizes="(max-width: 640px) 50vw, 25vw"
+                sizes="(min-width: 640px) 180px, 50vw"
                 className="object-cover object-top transition-transform duration-300 group-hover:scale-110"
               />
             </div>

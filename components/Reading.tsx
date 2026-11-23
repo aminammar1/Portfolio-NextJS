@@ -58,7 +58,7 @@ function BookCard({ book }: { book: Book }) {
               alt={book.title}
               width={200}
               height={300}
-              sizes="(max-width: 640px) 50vw, 25vw"
+              sizes="(min-width: 640px) 180px, 50vw"
               className="aspect-[2/3] w-full object-cover"
             />
           ) : (

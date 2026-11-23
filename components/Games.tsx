@@ -64,7 +64,7 @@ export default function Games() {
                 src={g.image}
                 alt={g.name}
                 fill
-                sizes="(max-width: 640px) 50vw, 20vw"
+                sizes="(min-width: 640px) 140px, 50vw"
                 className="object-cover object-top transition-transform duration-300 group-hover:scale-110"
               />
             </div>
